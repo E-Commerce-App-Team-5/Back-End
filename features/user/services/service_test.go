@@ -36,12 +36,12 @@ func TestLogin(t *testing.T) {
 func TestAddUser(t *testing.T) {
 	repo := mocks.NewRepository(t)
 	t.Run("Sukses Add User", func(t *testing.T) {
-		// repo.On("GetByUsername", mock.Anything).Return(domain.Core{}, 0)
-		repo.On("Insert", mock.Anything).Return(domain.Core{ID: uint(1), : "Fatur", HP: "08123", Password: "fatur123"}, nil).Once()
+		repo.On("Insert", mock.Anything).Return(domain.Core{ID: uint(1), Username: "fatur22", Email: "fatur@gmail.com", 
+		Password: "fatur123"}, nil).Once()
+
 		srv := New(repo)
-		input := domain.Core{ID: 1, Name: "fatur", HP: "08123", Password: "fatur123", Username: "faturfawkes",
-			Bio: "aku dari bali", Email: "fatur@gmail.com"}
-		res, err := srv.AddUser(input)
+		input := domain.Core{Password: "fatur123", Username: "faturfawkes", Email: "fatur@gmail.com"}
+		res, err := srv.Register(input)
 		assert.Nil(t, err)
 		assert.NotEmpty(t, res)
 		repo.AssertExpectations(t)
@@ -50,7 +50,7 @@ func TestAddUser(t *testing.T) {
 	t.Run("Gagal Add User", func(t *testing.T) {
 		repo.On("Insert", mock.Anything).Return(domain.Core{}, errors.New("error add user")).Once()
 		srv := New(repo)
-		res, err := srv.AddUser(domain.Core{})
+		res, err := srv.Register(domain.Core{})
 		assert.Empty(t, res)
 		assert.NotNil(t, err)
 		repo.AssertExpectations(t)
@@ -60,7 +60,7 @@ func TestAddUser(t *testing.T) {
 func TestDeleteUser(t *testing.T) {
 	repo := mocks.NewRepository(t)
 	t.Run("Sukses Delete User", func(t *testing.T) {
-		repo.On("Delete", mock.Anything).Return(domain.Core{ID: uint(1), Name: "Fatur", HP: "08123", Password: "fatur123"}, nil).Once()
+		repo.On("Delete", mock.Anything).Return(domain.Core{ID: uint(1), Username: "fatur00", Email: "fatur28@yahoo.com",Password: "fatur123"}, nil).Once()
 		srv := New(repo)
 		res, err := srv.DeleteUser(1)
 		assert.Nil(t, err)
@@ -80,7 +80,7 @@ func TestDeleteUser(t *testing.T) {
 func TestGet(t *testing.T) {
 	repo := mocks.NewRepository(t)
 	t.Run("Sukses Get User", func(t *testing.T) {
-		repo.On("Get", mock.Anything).Return(domain.Core{ID: uint(1), Name: "Fatur", HP: "08123", Password: "fatur123"}, nil).Once()
+		repo.On("Get", mock.Anything).Return(domain.Core{ID: uint(1), Username: "username", Fullname: "fullname", Password: "fatur123"}, nil).Once()
 		srv := New(repo)
 		res, err := srv.Get(1)
 		assert.Nil(t, err)
@@ -100,11 +100,11 @@ func TestGet(t *testing.T) {
 func TestUpdateUser(t *testing.T) {
 	repo := mocks.NewRepository(t)
 	t.Run("Sukses Update User", func(t *testing.T) {
-		repo.On("Edit", mock.Anything).Return(domain.Core{ID: 1, Name: "fatur", HP: "08123", Password: "fatur123", Username: "faturfawkes",
+		repo.On("Edit", mock.Anything).Return(domain.Core{ID: 1, Username: "username", Password: "fatur123",
 			Bio: "aku dari bali", Email: "fatur@gmail.com"}, nil).Once()
 		srv := New(repo)
-		input := domain.Core{ID: 1, Name: "fatur", HP: "08123", Password: "fatur123", Username: "faturfawkes",
-			Bio: "aku dari bali", Email: "fatur@gmail.com"}
+		input := domain.Core{ID: 1, Username: "username", Fullname: "fatur rohman", Password: "fatur123", Phone: "-8900001",
+			Bio: "aku dari sumut", Email: "fatur@gmail.com"}
 		res, err := srv.UpdateUser(input)
 		assert.Nil(t, err)
 		assert.NotEmpty(t, res)

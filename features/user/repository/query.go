@@ -17,17 +17,6 @@ func New(dbConn *gorm.DB) domain.Repository {
 	}
 }
 
-// func (rq *repoQuery) AddPhotos(input domain.Core) (domain.Core, error) {
-// 	var cnv User
-// 	cnv = FromDomain(input)
-// 	if err := rq.db.Model(&cnv).Where("id = ?", input.ID).Update("images", cnv.Fullname).Error; err != nil {
-// 		log.Fatal("error update data")
-// 		return domain.Core{}, err
-// 	}
-// 	input = ToDomain(cnv)
-// 	return input, nil
-// }
-
 func (rq *repoQuery) Login(input domain.Core) (domain.Core, error) {
 	var cnv User
 	cnv = FromDomain(input)
