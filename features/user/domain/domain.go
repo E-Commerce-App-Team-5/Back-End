@@ -15,14 +15,14 @@ type Core struct {
 }
 
 type Product struct {
-	ID             uint
-	IdUser         uint
-	NamaToko       string
-	ProductName    string
-	ProductDetail  string
-	ProductQty     int
-	Price          int
-	ProductPicture string
+	ID             uint `json:"id"`
+	IdUser         uint	`json:"id_user"`
+	NamaToko       string `json:"nama_toko"`
+	ProductName    string `json:"product_name"`
+	ProductDetail  string `json:"product_detail"`
+	ProductQty     int `json:"product_qty"`
+	Price          int `json:"price"`
+	ProductPicture string `json:"profile_picture"`
 }
 
 type ProductDetail struct {

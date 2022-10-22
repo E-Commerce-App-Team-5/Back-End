@@ -13,27 +13,6 @@ type Service struct {
 	mock.Mock
 }
 
-// AddUser provides a mock function with given fields: newUser
-func (_m *Service) AddUser(newUser domain.Core) (domain.Core, error) {
-	ret := _m.Called(newUser)
-
-	var r0 domain.Core
-	if rf, ok := ret.Get(0).(func(domain.Core) domain.Core); ok {
-		r0 = rf(newUser)
-	} else {
-		r0 = ret.Get(0).(domain.Core)
-	}
-
-	var r1 error
-	if rf, ok := ret.Get(1).(func(domain.Core) error); ok {
-		r1 = rf(newUser)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
 // DeleteUser provides a mock function with given fields: ID
 func (_m *Service) DeleteUser(ID uint) (domain.Core, error) {
 	ret := _m.Called(ID)
@@ -55,25 +34,34 @@ func (_m *Service) DeleteUser(ID uint) (domain.Core, error) {
 	return r0, r1
 }
 
-// Get provides a mock function with given fields: ID
-func (_m *Service) Get(ID uint) (domain.Core, error) {
-	ret := _m.Called(ID)
+// GetUser provides a mock function with given fields: username
+func (_m *Service) GetUser(username string) (domain.Core, []domain.Product, error) {
+	ret := _m.Called(username)
 
 	var r0 domain.Core
-	if rf, ok := ret.Get(0).(func(uint) domain.Core); ok {
-		r0 = rf(ID)
+	if rf, ok := ret.Get(0).(func(string) domain.Core); ok {
+		r0 = rf(username)
 	} else {
 		r0 = ret.Get(0).(domain.Core)
 	}
 
-	var r1 error
-	if rf, ok := ret.Get(1).(func(uint) error); ok {
-		r1 = rf(ID)
+	var r1 []domain.Product
+	if rf, ok := ret.Get(1).(func(string) []domain.Product); ok {
+		r1 = rf(username)
 	} else {
-		r1 = ret.Error(1)
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).([]domain.Product)
+		}
 	}
 
-	return r0, r1
+	var r2 error
+	if rf, ok := ret.Get(2).(func(string) error); ok {
+		r2 = rf(username)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
 }
 
 // Login provides a mock function with given fields: input
@@ -102,6 +90,27 @@ func (_m *Service) Login(input domain.Core) (domain.Core, string, error) {
 	}
 
 	return r0, r1, r2
+}
+
+// Register provides a mock function with given fields: newUser
+func (_m *Service) Register(newUser domain.Core) (domain.Core, error) {
+	ret := _m.Called(newUser)
+
+	var r0 domain.Core
+	if rf, ok := ret.Get(0).(func(domain.Core) domain.Core); ok {
+		r0 = rf(newUser)
+	} else {
+		r0 = ret.Get(0).(domain.Core)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(domain.Core) error); ok {
+		r1 = rf(newUser)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // UpdateUser provides a mock function with given fields: input

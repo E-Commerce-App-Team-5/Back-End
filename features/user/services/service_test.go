@@ -37,7 +37,7 @@ func TestAddUser(t *testing.T) {
 	repo := mocks.NewRepository(t)
 	t.Run("Sukses Add User", func(t *testing.T) {
 		// repo.On("GetByUsername", mock.Anything).Return(domain.Core{}, 0)
-		repo.On("Insert", mock.Anything).Return(domain.Core{ID: uint(1), Name: "Fatur", HP: "08123", Password: "fatur123"}, nil).Once()
+		repo.On("Insert", mock.Anything).Return(domain.Core{ID: uint(1), : "Fatur", HP: "08123", Password: "fatur123"}, nil).Once()
 		srv := New(repo)
 		input := domain.Core{ID: 1, Name: "fatur", HP: "08123", Password: "fatur123", Username: "faturfawkes",
 			Bio: "aku dari bali", Email: "fatur@gmail.com"}
