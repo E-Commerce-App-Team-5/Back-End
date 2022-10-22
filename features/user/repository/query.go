@@ -72,7 +72,7 @@ func (rq *repoQuery) Edit(input domain.Core) (domain.Core, error) {
 
 func (rq *repoQuery) Get(username string) (domain.Core, error) {
 	var resQry User
-	if err := rq.db.First(&resQry, "username = ?", resQry.Username).Error; err != nil {
+	if err := rq.db.First(&resQry, "username = ?", username).Error; err != nil {
 		return domain.Core{}, err
 	}
 	// selesai dari DB

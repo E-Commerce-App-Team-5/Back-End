@@ -90,7 +90,7 @@ func (us *userHandler) GetUser() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, FailResponse(err))
 		}
-		return c.JSON(http.StatusOK, SuccessResponseWithData("Success show all data", ToResponseGetUser(resUser, resProduct, "get")))
+		return c.JSON(http.StatusOK, SuccessResponseWithData("Success show all data", ToResponseGetUser(resUser, resProduct)))
 	}
 }
 

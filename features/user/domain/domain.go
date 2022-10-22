@@ -11,7 +11,7 @@ type Core struct {
 	DOB         string
 	NamaToko    string
 	Token       string
-	ProductDetail
+	ProductDetail ProductDetail
 }
 
 type Product struct {
