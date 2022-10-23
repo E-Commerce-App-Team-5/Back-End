@@ -39,7 +39,7 @@ func (us *userHandler) Login() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, FailResponse("login failed"))
 		}
 		res.Token = token
-		return c.JSON(http.StatusOK, SuccessResponseWithData("login successful", ToResponse(res, "login")))
+		return c.JSON(http.StatusOK, SuccessResponse("login successful", ToResponse(res, "login")))
 	}
 }
 
@@ -63,11 +63,12 @@ func (us *userHandler) UpdateUser() echo.HandlerFunc {
 		id := middlewares.ExtractToken(c)
 		input.ID = uint(id)
 		cnv := ToDomain(input)
-		_, err = us.srv.UpdateUser(cnv)
+		res, err := us.srv.UpdateUser(cnv)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, FailResponse(err))
 		}
-		return c.JSON(http.StatusCreated, SuccessResponseNoData("update user successful"))
+
+		return c.JSON(http.StatusCreated, SuccessResponse("Success update user", ToResponse(res, "update")))
 	}
 }
 
@@ -77,9 +78,9 @@ func (us *userHandler) DeleteUser() echo.HandlerFunc {
 		toUint := uint(id)
 		_, err := us.srv.DeleteUser(toUint)
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, FailResponse(err))
+			return c.JSON(http.StatusInternalServerError, FailResponse("An invalid client request."))
 		}
-		return c.JSON(http.StatusOK, SuccessResponseNoData("delete user successful"))
+		return c.JSON(http.StatusOK, SuccessResponseNoData("Success delete data."))
 	}
 }
 
@@ -88,9 +89,9 @@ func (us *userHandler) GetUser() echo.HandlerFunc {
 		username := c.QueryParam("username")
 		resUser, resProduct, err := us.srv.GetUser(username)
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, FailResponse(err))
+			return c.JSON(http.StatusInternalServerError, FailResponse("An invalid client request"))
 		}
-		return c.JSON(http.StatusOK, SuccessResponseWithData("Success show all data", ToResponseGetUser(resUser, resProduct, "get")))
+		return c.JSON(http.StatusOK, SuccessResponse("Success show all data", ToResponseGetUser(resUser, resProduct)))
 	}
 }
 
@@ -101,12 +102,12 @@ func (us *userHandler) Register() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("An invalid client request.")))
 		}
 		cnv := ToDomain(input)
-		_, err := us.srv.Register(cnv)
+		res, err := us.srv.Register(cnv)
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, FailResponse("username has taken"))
+			return c.JSON(http.StatusInternalServerError, FailResponse("There is problem on server."))
 		}
 
-		return c.JSON(http.StatusCreated, SuccessResponseNoData("success register user"))
+		return c.JSON(http.StatusCreated, SuccessResponse("success register user", ToResponse(res, "register")))
 	}
 
 }

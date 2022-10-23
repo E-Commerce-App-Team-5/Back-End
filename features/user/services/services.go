@@ -38,6 +38,7 @@ func (us *userService) Login(input domain.Core) (domain.Core, string, error) {
 }
 
 func (us *userService) UpdateUser(input domain.Core) (domain.Core, error) {
+	orgPass := input.Password
 	if input.Password != "" {
 		generate, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 		if err != nil {
@@ -46,11 +47,11 @@ func (us *userService) UpdateUser(input domain.Core) (domain.Core, error) {
 		}
 		input.Password = string(generate)
 	}
-
 	res, err := us.qry.Edit(input)
 	if err != nil {
 		return domain.Core{}, err
 	}
+	res.Password = orgPass
 	return res, nil
 }
 
@@ -69,13 +70,14 @@ func (us *userService) Register(newUser domain.Core) (domain.Core, error) {
 		log.Error(err.Error())
 		return domain.Core{}, errors.New("cannot encrypt password")
 	}
-
+	orgPass := newUser.Password
 	newUser.Password = string(generate)
 	res, err := us.qry.Insert(newUser)
-
 	if err != nil {
 		return domain.Core{}, errors.New("some problem on database")
 	}
+
+	res.Password = orgPass
 
 	return res, nil
 }

@@ -11,12 +11,12 @@ type RegisterFormat struct {
 }
 
 type UpdateFormat struct {
-	ID           uint
-	Username     string `form:"username" json:"username"`
-	Email        string `form:"email" json:"email"`
-	Password     string `form:"password" json:"password"`
-	Fullname     string `form:"fullname" json:"fullname"`
-	Phone        string `form:"phone" json:"phone"`
+	ID          uint
+	Username    string `form:"username" json:"username"`
+	Email       string `form:"email" json:"email"`
+	Password    string `form:"password" json:"password"`
+	Fullname    string `form:"fullname" json:"fullname"`
+	Phone       string `form:"phone" json:"phone"`
 	NamaToko    string `form:"nama_toko" json:"nama_toko"`
 	UserPicture string `form:"user_picture" json:"user_picture"`
 }
