@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 )
 
@@ -46,6 +47,8 @@ func UploadProfile(c echo.Context) (string, error) {
 
 	randomStr := String(20)
 
+	err = godotenv.Load(".env")
+
 	s3Config := &aws.Config{
 		Region:      aws.String("ap-southeast-1"),
 		Credentials: credentials.NewStaticCredentials(os.Getenv("ACCESS_KEY_IAM"), os.Getenv("SECRET_KEY_IAM"), ""),
@@ -55,7 +58,7 @@ func UploadProfile(c echo.Context) (string, error) {
 	uploader := s3manager.NewUploader(s3Session)
 
 	input := &s3manager.UploadInput{
-		Bucket:      aws.String("ecommerce-alta"),                                        // bucket's name
+		Bucket:      aws.String("ecommerce-alta"),                                   // bucket's name
 		Key:         aws.String("profile/" + randomStr + "-" + fileheader.Filename), // files destination location
 		Body:        file,                                                           // content of the file
 		ContentType: aws.String("image/jpg"),                                        // content type
