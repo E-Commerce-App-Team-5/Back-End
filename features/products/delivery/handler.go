@@ -33,9 +33,9 @@ func (ps *productHandler) UpdateProduct() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("cannot bind data")))
 		}
 
-		file, err := c.FormFile("user_picture")
+		file, _ := c.FormFile("product_picture")
 		if file != nil {
-			res, err := helper.UploadProfile(c)
+			res, err := helper.UploadProfileProduct(c)
 			if err != nil {
 				return err
 			}
@@ -92,7 +92,7 @@ func (ps *productHandler) AddProduct() echo.HandlerFunc {
 		input.IdUser = uint(middlewares.ExtractToken(c))
 		file, _ := c.FormFile("product_picture")
 		if file != nil {
-			res, err := helper.UploadProfile(c)
+			res, err := helper.UploadProfileProduct(c)
 			if err != nil {
 				return err
 			}
