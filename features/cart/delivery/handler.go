@@ -21,6 +21,26 @@ func New(e *echo.Echo, srv domain.Service) {
 	e.POST("/carts", handler.AddCart(), middleware.JWT([]byte(config.JWT_SECRET)))          // TAMBAH CART
 	e.GET("/carts", handler.GetCart(), middleware.JWT([]byte(config.JWT_SECRET)))           // GET CART
 	e.DELETE("/carts/:id", handler.DeleteCart(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE CART
+	e.PUT("/carts", handler.UpdateCart(), middleware.JWT([]byte(config.JWT_SECRET)))
+}
+
+func (cs *cartHandler) UpdateCart() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var input UpdateFormat
+		if err := c.Bind(&input); err != nil {
+			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("cannot bind data")))
+		}
+
+		id := middlewares.ExtractToken(c)
+		input.IdUser = uint(id)
+		cnv := ToDomain(input)
+		res, err := cs.srv.UpdateCart(cnv)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, FailResponse(err))
+		}
+
+		return c.JSON(http.StatusCreated, SuccessResponse("Success update user", ToResponse(res, "update")))
+	}
 }
 
 func (cs *cartHandler) DeleteCart() echo.HandlerFunc {
