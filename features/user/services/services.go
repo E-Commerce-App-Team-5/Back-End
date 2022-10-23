@@ -85,13 +85,13 @@ func (us *userService) Register(newUser domain.Core) (domain.Core, error) {
 func (us *userService) GetUser(username string) (domain.Core, []domain.Product, error) {
 	resUser, err := us.qry.Get(username)
 	if err != nil {
-		log.Error(err.Error())
+		// log.Error(err.Error())
 		return domain.Core{}, []domain.Product{}, errors.New("no data")
 	}
 
 	resProduct, err := us.qry.GetProduct(resUser.ID)
 	if err != nil {
-		return domain.Core{}, []domain.Product{}, err
+		return domain.Core{}, []domain.Product{}, errors.New("get product error")
 	}
 	return resUser, resProduct, nil
 }
