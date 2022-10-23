@@ -36,7 +36,7 @@ func TestAddProduct(t *testing.T) {
 
 func TestDeleteUser(t *testing.T) {
 	repo := mocks.NewRepository(t)
-	t.Run("Sukses Delete User", func(t *testing.T) {
+	t.Run("Sukses Delete Product", func(t *testing.T) {
 		repo.On("Delete", mock.Anything).Return(domain.Core{ID: uint(1), IdUser: uint(1), NamaToko: "tokosebek", ProductName: "buah", ProductQty: 10,
 			Price: 10000, ProductPicture: "srv.jpg"}, nil).Once()
 		srv := New(repo)
@@ -45,7 +45,7 @@ func TestDeleteUser(t *testing.T) {
 		assert.NotEmpty(t, res)
 		repo.AssertExpectations(t)
 	})
-	t.Run("Gagal Delete User", func(t *testing.T) {
+	t.Run("Gagal Delete Product", func(t *testing.T) {
 		repo.On("Delete", mock.Anything).Return(domain.Core{}, errors.New("error")).Once()
 		srv := New(repo)
 		res, err := srv.DeleteProduct(1)
@@ -57,7 +57,7 @@ func TestDeleteUser(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	repo := mocks.NewRepository(t)
-	t.Run("Sukses Get User", func(t *testing.T) {
+	t.Run("Sukses Get Product", func(t *testing.T) {
 		repo.On("Get", mock.Anything).Return([]domain.Core{{ID: uint(1), IdUser: uint(1), NamaToko: "tokosebek", ProductName: "buah", ProductQty: 10,
 			Price: 10000, ProductPicture: "srv.jpg"}}, nil).Once()
 		srv := New(repo)
@@ -66,7 +66,7 @@ func TestGet(t *testing.T) {
 		assert.NotEmpty(t, res)
 		repo.AssertExpectations(t)
 	})
-	t.Run("Failed Get User", func(t *testing.T) {
+	t.Run("Failed Get Product", func(t *testing.T) {
 		repo.On("Get", mock.Anything).Return([]domain.Core{}, errors.New("no data")).Once()
 		srv := New(repo)
 		res, err := srv.GetProduct(1)
@@ -76,9 +76,9 @@ func TestGet(t *testing.T) {
 	})
 }
 
-func TestUpdateUser(t *testing.T) {
+func TestUpdateProduct(t *testing.T) {
 	repo := mocks.NewRepository(t)
-	t.Run("Sukses Update User", func(t *testing.T) {
+	t.Run("Sukses Update Product", func(t *testing.T) {
 		repo.On("Edit", mock.Anything).Return(domain.Core{ID: 1, IdUser: uint(1), NamaToko: "tokosebek", ProductName: "buah", ProductQty: 10, Price: 10000, ProductPicture: "srv.jpg"}, nil).Once()
 		srv := New(repo)
 		input := domain.Core{ID: 1, IdUser: uint(1), NamaToko: "tokosebek", ProductName: "buah", ProductQty: 10, Price: 10000, ProductPicture: "srv.jpg"}
@@ -87,7 +87,7 @@ func TestUpdateUser(t *testing.T) {
 		assert.NotEmpty(t, res)
 		repo.AssertExpectations(t)
 	})
-	t.Run("Gagal Update User", func(t *testing.T) {
+	t.Run("Gagal Update Product", func(t *testing.T) {
 		repo.On("Edit", mock.Anything).Return(domain.Core{}, errors.New("error update user")).Once()
 		srv := New(repo)
 		var input domain.Core
