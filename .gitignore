@@ -1,1 +1,4 @@
+*.git
+*.html
+*.out
 config.env

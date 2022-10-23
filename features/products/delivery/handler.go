@@ -20,10 +20,10 @@ type productHandler struct {
 
 func New(e *echo.Echo, srv domain.Service) {
 	handler := productHandler{srv: srv}
-	e.POST("/products", handler.AddProduct(), middleware.JWT([]byte(config.JWT_SECRET)))      // TAMBAH PRODUCT
-	e.GET("/products", handler.GetProduct())                                                  // GET PRODUCT
-	e.DELETE("/products", handler.DeleteProduct(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE PRODUCT
-	e.PUT("/products", handler.UpdateProduct(), middleware.JWT([]byte(config.JWT_SECRET)))    // UPDATE PRODUCT
+	e.POST("/products", handler.AddProduct(), middleware.JWT([]byte(config.JWT_SECRET)))          // TAMBAH PRODUCT
+	e.GET("/products", handler.GetProduct())                                                      // GET PRODUCT
+	e.DELETE("/products/:id", handler.DeleteProduct(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE PRODUCT
+	e.PUT("/products", handler.UpdateProduct(), middleware.JWT([]byte(config.JWT_SECRET)))        // UPDATE PRODUCT
 }
 
 func (ps *productHandler) UpdateProduct() echo.HandlerFunc {
@@ -33,9 +33,9 @@ func (ps *productHandler) UpdateProduct() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("cannot bind data")))
 		}
 
-		file, err := c.FormFile("user_picture")
+		file, _ := c.FormFile("product_picture")
 		if file != nil {
-			res, err := helper.UploadProfile(c)
+			res, err := helper.UploadProfileProduct(c)
 			if err != nil {
 				return err
 			}
@@ -92,7 +92,7 @@ func (ps *productHandler) AddProduct() echo.HandlerFunc {
 		input.IdUser = uint(middlewares.ExtractToken(c))
 		file, _ := c.FormFile("product_picture")
 		if file != nil {
-			res, err := helper.UploadProfile(c)
+			res, err := helper.UploadProfileProduct(c)
 			if err != nil {
 				return err
 			}

@@ -3,6 +3,7 @@ package database
 import (
 	"ecommerce/config"
 	"fmt"
+
 	// "os"
 
 	user "ecommerce/features/user/repository"
@@ -41,4 +42,5 @@ func InitDB() *gorm.DB {
 func migrateDB(db *gorm.DB) {
 	db.AutoMigrate(&user.User{})
 	db.AutoMigrate(&user.Product{})
+	db.AutoMigrate(&user.Cart{})
 }
