@@ -36,6 +36,7 @@ type Cart struct {
 	gorm.Model
 	IdProduct      uint
 	IdUser         uint
+	NamaToko       string
 	ProductName    string
 	ProductQty     int
 	Price          int
@@ -47,6 +48,7 @@ func FromDomain(dp domain.Core) Cart {
 		Model:          gorm.Model{ID: dp.ID},
 		IdProduct:      dp.IdProduct,
 		IdUser:         dp.IdUser,
+		NamaToko:       dp.NamaToko,
 		ProductName:    dp.ProductName,
 		ProductQty:     dp.ProductQty,
 		Price:          dp.Price,
@@ -59,6 +61,7 @@ func ToDomain(dp Cart) domain.Core {
 		ID:             dp.ID,
 		IdProduct:      dp.IdProduct,
 		IdUser:         dp.IdUser,
+		NamaToko:       dp.NamaToko,
 		ProductName:    dp.ProductName,
 		ProductQty:     dp.ProductQty,
 		Price:          dp.Price,
@@ -69,7 +72,7 @@ func ToDomain(dp Cart) domain.Core {
 func ToDomainArray(dp []Cart) []domain.Core {
 	var res []domain.Core
 	for _, val := range dp {
-		res = append(res, domain.Core{ID: val.ID, IdProduct: val.IdProduct, IdUser: val.IdUser, ProductName: val.ProductName, ProductQty: val.ProductQty, Price: val.Price, ProductPicture: val.ProductPicture})
+		res = append(res, domain.Core{ID: val.ID, IdProduct: val.IdProduct, IdUser: val.IdUser, NamaToko: val.NamaToko, ProductName: val.ProductName, ProductQty: val.ProductQty, Price: val.Price, ProductPicture: val.ProductPicture})
 	}
 	return res
 }

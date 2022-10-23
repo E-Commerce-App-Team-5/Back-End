@@ -20,10 +20,10 @@ type productHandler struct {
 
 func New(e *echo.Echo, srv domain.Service) {
 	handler := productHandler{srv: srv}
-	e.POST("/products", handler.AddProduct(), middleware.JWT([]byte(config.JWT_SECRET)))      // TAMBAH PRODUCT
-	e.GET("/products", handler.GetProduct())                                                  // GET PRODUCT
-	e.DELETE("/products", handler.DeleteProduct(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE PRODUCT
-	e.PUT("/products", handler.UpdateProduct(), middleware.JWT([]byte(config.JWT_SECRET)))    // UPDATE PRODUCT
+	e.POST("/products", handler.AddProduct(), middleware.JWT([]byte(config.JWT_SECRET)))          // TAMBAH PRODUCT
+	e.GET("/products", handler.GetProduct())                                                      // GET PRODUCT
+	e.DELETE("/products/:id", handler.DeleteProduct(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE PRODUCT
+	e.PUT("/products", handler.UpdateProduct(), middleware.JWT([]byte(config.JWT_SECRET)))        // UPDATE PRODUCT
 }
 
 func (ps *productHandler) UpdateProduct() echo.HandlerFunc {

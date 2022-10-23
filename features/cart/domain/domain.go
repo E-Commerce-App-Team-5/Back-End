@@ -6,6 +6,7 @@ type Core struct {
 	ID             uint
 	IdProduct      uint
 	IdUser         uint
+	NamaToko       string
 	ProductName    string
 	ProductQty     int
 	Price          int

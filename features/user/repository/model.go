@@ -36,6 +36,7 @@ type Cart struct {
 	gorm.Model
 	IdProduct      uint
 	IdUser         uint
+	NamaToko       string
 	ProductName    string
 	ProductQty     int
 	Price          int

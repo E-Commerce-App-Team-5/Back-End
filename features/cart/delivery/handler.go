@@ -1,1 +1,66 @@
 package delivery
+
+import (
+	"ecommerce/config"
+	"ecommerce/features/cart/domain"
+	"ecommerce/middlewares"
+	"errors"
+	"net/http"
+	"strconv"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+)
+
+type cartHandler struct {
+	srv domain.Service
+}
+
+func New(e *echo.Echo, srv domain.Service) {
+	handler := cartHandler{srv: srv}
+	e.POST("/cart", handler.AddCart(), middleware.JWT([]byte(config.JWT_SECRET)))          // TAMBAH CART
+	e.GET("/cart", handler.GetCart())                                                      // GET CART
+	e.DELETE("/cart/:id", handler.DeleteCart(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE CART
+}
+
+func (cs *cartHandler) DeleteCart() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			return errors.New("cannot convert id")
+		}
+		_, err = cs.srv.DeleteCart(uint(id))
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, FailResponse("An invalid client request."))
+		}
+		return c.JSON(http.StatusOK, SuccessResponseNoData("Success delete data."))
+	}
+}
+
+func (cs *cartHandler) GetCart() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id := middlewares.ExtractToken(c)
+		res, err := cs.srv.GetCart(uint(id))
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, FailResponse("An invalid client request"))
+		}
+		return c.JSON(http.StatusOK, SuccessResponse("Success show all data", ToResponseProduct(res, "sukses")))
+	}
+}
+
+func (cs *cartHandler) AddCart() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var input RegisterFormat
+		if err := c.Bind(&input); err != nil {
+			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("an invalid client request")))
+		}
+		input.IdUser = uint(middlewares.ExtractToken(c))
+		cnv := ToDomain(input)
+		res, err := cs.srv.AddCart(cnv)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, FailResponse("There is problem on server."))
+		}
+
+		return c.JSON(http.StatusCreated, SuccessResponse("success add product", ToResponse(res, "register")))
+	}
+}
