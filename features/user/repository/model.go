@@ -17,6 +17,7 @@ type User struct {
 	Phone       string
 	NamaToko    string
 	Products    []Product `gorm:"foreignKey:IdUser"`
+	Carts       []Cart    `gorm:"foreignKey:IdUser"`
 }
 
 type Product struct {
@@ -25,6 +26,17 @@ type Product struct {
 	NamaToko       string
 	ProductName    string
 	ProductDetail  string
+	ProductQty     int
+	Price          int
+	ProductPicture string
+	Carts          []Cart `gorm:"foreignKey:IdProduct"`
+}
+
+type Cart struct {
+	gorm.Model
+	IdProduct      uint
+	IdUser         uint
+	ProductName    string
 	ProductQty     int
 	Price          int
 	ProductPicture string
@@ -46,7 +58,7 @@ func FromDomain(du domain.Core) User {
 
 func ToDomain(du User) domain.Core {
 	return domain.Core{
-		ID : du.ID,
+		ID:          du.ID,
 		Fullname:    du.Fullname,
 		Username:    du.Username,
 		Email:       du.Email,
