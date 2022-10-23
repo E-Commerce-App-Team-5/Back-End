@@ -87,7 +87,17 @@ func (ps *productHandler) AddProduct() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var input RegisterFormat
 		if err := c.Bind(&input); err != nil {
-			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("An invalid client request.")))
+			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("an invalid client request")))
+		}
+		input.IdUser = uint(middlewares.ExtractToken(c))
+		file, _ := c.FormFile("product_picture")
+		if file != nil {
+			res, err := helper.UploadProfile(c)
+			if err != nil {
+				return err
+			}
+			log.Print(res)
+			input.ProductPicture = res
 		}
 		cnv := ToDomain(input)
 		res, err := ps.srv.AddProduct(cnv)
@@ -95,7 +105,7 @@ func (ps *productHandler) AddProduct() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, FailResponse("There is problem on server."))
 		}
 
-		return c.JSON(http.StatusCreated, SuccessResponse("success register user", ToResponse(res, "register")))
+		return c.JSON(http.StatusCreated, SuccessResponse("success add product", ToResponse(res, "register")))
 	}
 
 }

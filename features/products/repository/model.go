@@ -6,6 +6,18 @@ import (
 	"gorm.io/gorm"
 )
 
+type User struct {
+	gorm.Model
+	Fullname    string
+	Username    string `gorm:"unique"`
+	Email       string `gorm:"unique"`
+	Password    string
+	UserPicture string
+	DOB         string
+	Phone       string
+	NamaToko    string
+	Products    []Product `gorm:"foreignKey:IdUser"`
+}
 type Product struct {
 	gorm.Model
 	IdUser         uint
