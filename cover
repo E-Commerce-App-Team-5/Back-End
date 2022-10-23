@@ -9,3 +9,6 @@ ecommerce/features/cart/services/services.go:30.16,32.3 1 1
 ecommerce/features/cart/services/services.go:37.67,39.16 2 1
 ecommerce/features/cart/services/services.go:44.2,44.17 1 1
 ecommerce/features/cart/services/services.go:39.16,42.3 2 1
+ecommerce/features/cart/services/services.go:47.78,49.16 2 1
+ecommerce/features/cart/services/services.go:52.2,52.17 1 1
+ecommerce/features/cart/services/services.go:49.16,51.3 1 1

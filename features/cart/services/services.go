@@ -43,3 +43,11 @@ func (ps *productService) GetCart(id uint) ([]domain.Core, error) {
 
 	return res, nil
 }
+
+func (ps *productService) UpdateCart(input domain.Core) (domain.Core, error) {
+	res, err := ps.qry.Edit(input)
+	if err != nil {
+		return domain.Core{}, err
+	}
+	return res, nil
+}

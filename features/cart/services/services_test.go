@@ -75,3 +75,25 @@ func TestGet(t *testing.T) {
 		repo.AssertExpectations(t)
 	})
 }
+
+func TestUpdateProduct(t *testing.T) {
+	repo := mocks.NewRepository(t)
+	t.Run("Sukses Update Cart", func(t *testing.T) {
+		repo.On("Edit", mock.Anything).Return(domain.Core{ID: 1, IdUser: uint(1), NamaToko: "tokosebek", ProductName: "buah", ProductQty: 10, Price: 10000, ProductPicture: "srv.jpg"}, nil).Once()
+		srv := New(repo)
+		input := domain.Core{ID: 1, IdUser: uint(1), NamaToko: "tokosebek", ProductName: "buah", ProductQty: 10, Price: 10000, ProductPicture: "srv.jpg"}
+		res, err := srv.UpdateCart(input)
+		assert.Nil(t, err)
+		assert.NotEmpty(t, res)
+		repo.AssertExpectations(t)
+	})
+	t.Run("Gagal Update Cart", func(t *testing.T) {
+		repo.On("Edit", mock.Anything).Return(domain.Core{}, errors.New("error update user")).Once()
+		srv := New(repo)
+		var input domain.Core
+		res, err := srv.UpdateCart(input)
+		assert.Empty(t, res)
+		assert.NotNil(t, err)
+		repo.AssertExpectations(t)
+	})
+}

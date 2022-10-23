@@ -37,6 +37,16 @@ func (rq *repoQuery) Insert(newCart domain.Core) (domain.Core, error) {
 	return newCart, nil
 }
 
+func (rq *repoQuery) Edit(input domain.Core) (domain.Core, error) {
+	var cnv Cart = FromDomain(input)
+	if err := rq.db.Where("id = ?", cnv.ID).Updates(&cnv).Error; err != nil {
+		return domain.Core{}, err
+	}
+	// selesai dari DB
+	input = ToDomain(cnv)
+	return input, nil
+}
+
 func (rq *repoQuery) Get(id uint) ([]domain.Core, error) {
 	var resQry []Cart
 	if err := rq.db.Where("id_user=?", id).Find(&resQry).Error; err != nil {

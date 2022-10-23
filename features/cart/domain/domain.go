@@ -17,12 +17,14 @@ type Repository interface { // Data /Repository (berhubungan dg DB)
 	Insert(newProduct Core) (Core, error)
 	Get(id uint) ([]Core, error)
 	Delete(id uint) (Core, error)
+	Edit(input Core) (Core, error)
 }
 
 type Service interface { // Bisnis logic
 	AddCart(newProduct Core) (Core, error)
 	DeleteCart(ID uint) (Core, error)
 	GetCart(id uint) ([]Core, error)
+	UpdateCart(input Core) (Core, error)
 }
 
 type Handler interface {
