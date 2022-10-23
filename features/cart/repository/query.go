@@ -25,6 +25,9 @@ func (rq *repoQuery) Delete(id uint) (domain.Core, error) {
 
 func (rq *repoQuery) Insert(newCart domain.Core) (domain.Core, error) {
 	var cnv Cart = FromDomain(newCart)
+	var user User
+	rq.db.Where("id=?", cnv.IdUser).First(&user)
+	cnv.NamaToko = user.NamaToko
 	if err := rq.db.Create(&cnv).Error; err != nil {
 		return domain.Core{}, err
 	}
