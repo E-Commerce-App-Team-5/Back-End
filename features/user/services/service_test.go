@@ -8,7 +8,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	// "golang.org/x/crypto/bcrypt"
 )
 
 func TestLogin(t *testing.T) {
@@ -80,19 +79,34 @@ func TestDeleteUser(t *testing.T) {
 func TestGet(t *testing.T) {
 	repo := mocks.NewRepository(t)
 	t.Run("Sukses Get User", func(t *testing.T) {
-		repo.On("Get", mock.Anything).Return(domain.Core{ID: uint(1), Username: "username", Fullname: "fullname", Password: "fatur123"}, nil).Once()
+		repo.On("Get", mock.Anything).Return(domain.Core{ID: uint(1), Username: "fatur", Fullname: "fatur fawkes"}, nil).Once()
+		product := domain.Product{NamaToko: "juragan99" ,ProductName: "monitor"}
+		repo.On("GetProduct", mock.Anything).Return([]domain.Product{product}, nil).Once()
 		srv := New(repo)
-		res, err := srv.Get(1)
+		resUser, resProduct, err := srv.GetUser("fatur")
 		assert.Nil(t, err)
-		assert.NotEmpty(t, res)
+		assert.NotEmpty(t, resUser)
+		assert.NotEmpty(t, resProduct)
 		repo.AssertExpectations(t)
 	})
-	t.Run("Failed Get User", func(t *testing.T) {
+	t.Run("Gagal Get User", func(t *testing.T) {
 		repo.On("Get", mock.Anything).Return(domain.Core{}, errors.New("no data")).Once()
+		// repo.On("GetProduct", mock.Anything).Return(nil, errors.New("get product error")).Once()
 		srv := New(repo)
-		res, err := srv.Get(1)
+		resUser, resProduct, err := srv.GetUser("fatur")
 		assert.NotNil(t, err)
-		assert.Empty(t, res)
+		assert.Empty(t, resUser)
+		assert.Empty(t, resProduct)
+		repo.AssertExpectations(t)
+	})
+	t.Run("Gagal Get User", func(t *testing.T) {
+		repo.On("Get", mock.Anything).Return(domain.Core{ID: uint(1), Username: "fatur", Fullname: "fatur fawkes"}, nil).Once()
+		repo.On("GetProduct", mock.Anything).Return([]domain.Product{}, errors.New("get product error")).Once()
+		srv := New(repo)
+		resUser, resProduct, err := srv.GetUser("fatur")
+		assert.NotNil(t, err)
+		assert.Empty(t, resUser)
+		assert.Empty(t, resProduct)
 		repo.AssertExpectations(t)
 	})
 }
@@ -101,10 +115,10 @@ func TestUpdateUser(t *testing.T) {
 	repo := mocks.NewRepository(t)
 	t.Run("Sukses Update User", func(t *testing.T) {
 		repo.On("Edit", mock.Anything).Return(domain.Core{ID: 1, Username: "username", Password: "fatur123",
-			Bio: "aku dari bali", Email: "fatur@gmail.com"}, nil).Once()
+			Email: "fatur@gmail.com"}, nil).Once()
 		srv := New(repo)
 		input := domain.Core{ID: 1, Username: "username", Fullname: "fatur rohman", Password: "fatur123", Phone: "-8900001",
-			Bio: "aku dari sumut", Email: "fatur@gmail.com"}
+			Email: "fatur@gmail.com"}
 		res, err := srv.UpdateUser(input)
 		assert.Nil(t, err)
 		assert.NotEmpty(t, res)
