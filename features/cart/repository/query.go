@@ -25,10 +25,8 @@ func (rq *repoQuery) Delete(id uint) (domain.Core, error) {
 
 func (rq *repoQuery) Insert(newCart domain.Core) (domain.Core, error) {
 	var cnv Cart = FromDomain(newCart)
-	var user User
-	rq.db.Where("id=?", cnv.IdUser).First(&user)
-	cnv.NamaToko = user.NamaToko
-	if err := rq.db.Create(&cnv).Error; err != nil {
+
+	if err := rq.db.Select("id_product", "id_user", "product_qty").Create(&cnv).Error; err != nil {
 		return domain.Core{}, err
 	}
 
@@ -49,9 +47,10 @@ func (rq *repoQuery) Edit(input domain.Core) (domain.Core, error) {
 
 func (rq *repoQuery) Get(id uint) ([]domain.Core, error) {
 	var resQry []Cart
-	if err := rq.db.Where("id_user=?", id).Find(&resQry).Error; err != nil {
+	if err := rq.db.Where("carts.id_user=?", id).Find(&resQry).Joins("left join products on products.id = carts.id_product").Joins("left join users on users.id = carts.id_user").Scan(&resQry).Error; err != nil {
 		return nil, err
 	}
+
 	// selesai dari DB
 	res := ToDomainArray(resQry)
 	return res, nil
