@@ -36,7 +36,6 @@ type UpdateResponse struct {
 type RegisterResponse struct {
 	Username string `json:"usename"`
 	Email    string `json:"email"`
-	Password string `json:"password"`
 }
 
 type GetResponse struct {

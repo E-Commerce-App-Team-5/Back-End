@@ -16,8 +16,8 @@ type User struct {
 	DOB         string
 	Phone       string
 	NamaToko    string
-	// Products    []Product `gorm:"foreignKey:IdUser"`
-	// Carts       []Cart    `gorm:"foreignKey:IdUser"`
+	Products    []Product `gorm:"foreignKey:IdUser"`
+	Carts       []Cart    `gorm:"foreignKey:IdUser"`
 }
 
 type Product struct {
