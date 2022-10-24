@@ -67,7 +67,7 @@ func ToResponse(core interface{}, code string) interface{} {
 		res = LoginResponse{ID: cnv.ID, Username: cnv.Username, Email: cnv.Email, Fullname: cnv.Fullname, UserPicture: cnv.UserPicture, Token: cnv.Token}
 	case "register":
 		cnv := core.(domain.Core)
-		res = RegisterResponse{Username: cnv.Username, Email: cnv.Email, Password: cnv.Password}
+		res = RegisterResponse{Username: cnv.Username, Email: cnv.Email}
 	case "update":
 		cnv := core.(domain.Core)
 		res = UpdateResponse{ID: cnv.ID, Username: cnv.Username, Email: cnv.Email, Fullname: cnv.Fullname, UserPicture: cnv.UserPicture, Phone: cnv.Phone, NamaToko: cnv.NamaToko}

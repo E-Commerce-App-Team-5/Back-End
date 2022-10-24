@@ -33,20 +33,26 @@ type GetResponse struct {
 }
 
 type RegisterResponse struct {
-	IdProduct      uint   `json:"id_product"`
-	IdUser         uint   `json:"id_user"`
-	NamaToko       string `json:"nama_toko"`
-	ProductName    string `json:"product_name"`
-	ProductQty     int    `json:"product_qty"`
-	Price          int    `json:"price"`
-	ProductPicture string `json:"product_picture"`
+	IdProduct  uint `json:"id_product"`
+	ProductQty int  `json:"product_qty"`
+}
+
+type UpdateResponse struct {
+	ID         uint `json:"id"`
+	ProductQty int  `json:"product_qty"`
 }
 
 func ToResponse(core interface{}, code string) interface{} {
 	var res interface{}
-	cnv := core.(domain.Core)
-	res = RegisterResponse{IdProduct: cnv.IdProduct, IdUser: cnv.IdUser, NamaToko: cnv.NamaToko, ProductName: cnv.ProductName,
-		ProductQty: cnv.ProductQty, Price: cnv.Price, ProductPicture: cnv.ProductPicture}
+	switch code{
+	case "register":
+		cnv := core.(domain.Core)
+		res = RegisterResponse{IdProduct: cnv.IdProduct, ProductQty: cnv.ProductQty}
+	case "update":
+		cnv := core.(domain.Core)
+		res = UpdateResponse{ID: cnv.ID, ProductQty: cnv.ProductQty}
+	}
+	
 	return res
 }
 

@@ -16,8 +16,8 @@ type User struct {
 	DOB         string
 	Phone       string
 	NamaToko    string
-	Products    []Product `gorm:"foreignKey:IdUser"`
-	Carts       []Cart    `gorm:"foreignKey:IdUser"`
+	// Products    []Product `gorm:"foreignKey:IdUser"`
+	// Carts       []Cart    `gorm:"foreignKey:IdUser"`
 }
 
 type Product struct {
@@ -36,11 +36,11 @@ type Cart struct {
 	gorm.Model
 	IdProduct      uint
 	IdUser         uint
-	NamaToko       string
-	ProductName    string
+	NamaToko       string `gorm:"-:migration" gorm:"->"`
+	ProductName    string `gorm:"-:migration" gorm:"->"`
 	ProductQty     int
-	Price          int
-	ProductPicture string
+	Price          int    `gorm:"-:migration" gorm:"->"`
+	ProductPicture string `gorm:"-:migration" gorm:"->"`
 }
 
 func FromDomain(dp domain.Core) Cart {
