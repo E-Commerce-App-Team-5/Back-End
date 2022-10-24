@@ -2,7 +2,7 @@ name: build-push
 on:
   push:
     branches:
-      - 'automation'
+      - 'main'
 
 jobs:
   docker:
