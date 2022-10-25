@@ -31,7 +31,7 @@ type HistoryCore struct {
 }
 
 type Repository interface {
-	Insert(newCheckout HistoryCore) (Core, error)
+	Insert(newHistory []HistoryCore, newCheckout Core) (Core, error)
 	Get() ([]Core, error)
 	Delete(id uint) (Core, error)
 }

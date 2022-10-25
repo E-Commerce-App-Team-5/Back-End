@@ -25,6 +25,18 @@ type History struct {
 	Status     string
 }
 
+func FromDomainHistory(dp []domain.HistoryCore) []History {
+	var res []History
+	for _, val := range dp {
+		res = append(res, History{Model: gorm.Model{ID: val.ID}, IdPembeli: val.IdPembeli,
+			IdProduct:  val.IdProduct,
+			ProductQty: val.ProductQty,
+			Price:      val.Price,
+			Status:     val.Status})
+	}
+	return res
+}
+
 func FromDomain(dp domain.Core) Checkout {
 	return Checkout{
 		Model:       gorm.Model{ID: dp.ID},
