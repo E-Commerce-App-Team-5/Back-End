@@ -78,6 +78,11 @@ func (_m *Service) GetCheckout(id uint) ([]domain.Core, error) {
 	return r0, r1
 }
 
+// UpdateCheckout provides a mock function with given fields: newCheckout
+func (_m *Service) UpdateCheckout(newCheckout domain.Core) {
+	_m.Called(newCheckout)
+}
+
 type mockConstructorTestingTNewService interface {
 	mock.TestingT
 	Cleanup(func())

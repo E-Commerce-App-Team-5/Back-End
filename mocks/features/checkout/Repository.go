@@ -78,6 +78,20 @@ func (_m *Repository) Insert(newHistory []domain.HistoryCore, newCheckout domain
 	return r0, r1
 }
 
+// Update provides a mock function with given fields: newCheckout
+func (_m *Repository) Update(newCheckout domain.Core) error {
+	ret := _m.Called(newCheckout)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(domain.Core) error); ok {
+		r0 = rf(newCheckout)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 type mockConstructorTestingTNewRepository interface {
 	mock.TestingT
 	Cleanup(func())

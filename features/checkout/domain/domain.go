@@ -35,16 +35,19 @@ type Repository interface {
 	Insert(newHistory []HistoryCore, newCheckout Core) (Core, error)
 	Get(id uint) ([]Core, error)
 	Delete(id uint) (Core, error)
+	Update(newCheckout Core) error
 }
 
 type Service interface { // Bisnis logic
 	AddCheckout(newHistory []HistoryCore, newCheckout Core) (Core, error)
 	DeleteCheckout(ID uint) (Core, error)
 	GetCheckout(id uint) ([]Core, error)
+	UpdateCheckout(newCheckout Core)
 }
 
 type Handler interface {
 	AddCheckout() echo.HandlerFunc
 	GetCheckout() echo.HandlerFunc
 	DeleteCheckout() echo.HandlerFunc
+	UpdateCheckout() echo.HandlerFunc
 }
