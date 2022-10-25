@@ -1,11 +1,13 @@
 package domain
 
 type Core struct {
-	ID        uint
-	IdPembeli uint
-	Token     string
-	Link      string
-	Status    string
+	ID          uint
+	IdPembeli   uint
+	OrderId     string
+	GrossAmount float32
+	Token       string
+	Link        string
+	Status      string
 }
 
 type CoreProduct struct {
@@ -19,7 +21,7 @@ type CoreProduct struct {
 	ProductPicture string
 }
 
-type DetailCore struct {
+type HistoryCore struct {
 	ID         uint
 	IdPembeli  uint
 	IdProduct  uint
@@ -29,7 +31,7 @@ type DetailCore struct {
 }
 
 type Repository interface {
-	Insert(newCheckout DetailCore) (Core, error)
+	Insert(newCheckout HistoryCore) (Core, error)
 	Get() ([]Core, error)
 	Delete(id uint) (Core, error)
 }
