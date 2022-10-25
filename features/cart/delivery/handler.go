@@ -18,10 +18,10 @@ type cartHandler struct {
 
 func New(e *echo.Echo, srv domain.Service) {
 	handler := cartHandler{srv: srv}
-	e.POST("/carts", handler.AddCart(), middleware.JWT([]byte(config.JWT_SECRET)))          // TAMBAH CART
-	e.GET("/carts", handler.GetCart(), middleware.JWT([]byte(config.JWT_SECRET)))           // GET CART
-	e.DELETE("/carts/:id", handler.DeleteCart(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE CART
-	e.PUT("/carts", handler.UpdateCart(), middleware.JWT([]byte(config.JWT_SECRET)))
+	e.POST("/cart", handler.AddCart(), middleware.JWT([]byte(config.JWT_SECRET)))          // TAMBAH CART
+	e.GET("/cart", handler.GetCart(), middleware.JWT([]byte(config.JWT_SECRET)))           // GET CART
+	e.DELETE("/cart/:id", handler.DeleteCart(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE CART
+	e.PUT("/cart", handler.UpdateCart(), middleware.JWT([]byte(config.JWT_SECRET)))
 }
 
 func (cs *cartHandler) UpdateCart() echo.HandlerFunc {
