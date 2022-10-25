@@ -28,7 +28,6 @@ type RegisterResponse struct {
 	GrossAmount float32 `json:"gross_amount"`
 	Token       string  `json:"token"`
 	Link        string  `json:"link"`
-	Status      string  `json:"status"`
 }
 
 func ToResponse(core interface{}, code string) interface{} {
@@ -37,6 +36,13 @@ func ToResponse(core interface{}, code string) interface{} {
 	case "register":
 		cnv := core.(domain.Core)
 		res = RegisterResponse{ID: cnv.ID, IdPembeli: cnv.IdPembeli, OrderId: cnv.OrderId, GrossAmount: cnv.GrossAmount, Token: cnv.Token, Link: cnv.Link}
+	case "get":
+		var arr []RegisterResponse
+		val := core.([]domain.Core)
+		for _, cnv := range val {
+			arr = append(arr, RegisterResponse{ID: cnv.ID, IdPembeli: cnv.IdPembeli, OrderId: cnv.OrderId, GrossAmount: cnv.GrossAmount, Token: cnv.Token, Link: cnv.Link})
+		}
+		res = arr
 	}
 
 	return res

@@ -23,7 +23,6 @@ type History struct {
 	IdProduct  uint
 	ProductQty int
 	Price      int
-	Status     string
 }
 
 func FromDomainHistory(dp []domain.HistoryCore) []History {
@@ -32,8 +31,7 @@ func FromDomainHistory(dp []domain.HistoryCore) []History {
 		res = append(res, History{Model: gorm.Model{ID: val.ID},
 			IdProduct:  val.IdProduct,
 			ProductQty: val.ProductQty,
-			Price:      val.Price,
-			Status:     val.Status})
+			Price:      val.Price})
 	}
 	return res
 }

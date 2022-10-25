@@ -31,5 +31,5 @@ func ToDomainHistory(i interface{}, j interface{}) ([]domain.HistoryCore, domain
 }
 
 func ToDomainMidtrans(i *snap.Response, res domain.Core) domain.Core {
-	return domain.Core{IdPembeli: res.IdPembeli, GrossAmount: res.GrossAmount, OrderId: res.OrderId, Token: i.Token, Link: i.RedirectURL}
+	return domain.Core{IdPembeli: res.IdPembeli, GrossAmount: res.GrossAmount, OrderId: res.OrderId, Token: i.Token, Link: i.RedirectURL, Status: res.Status}
 }

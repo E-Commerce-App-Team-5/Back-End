@@ -43,11 +43,3 @@ func (cs *checkoutService) GetCheckout(id uint) ([]domain.Core, error) {
 
 	return res, nil
 }
-
-// func (cs *checkoutService) UpdateCart(input domain.Core) (domain.Core, error) {
-// 	res, err := cs.qry.Edit()
-// 	if err != nil {
-// 		return domain.Core{}, err
-// 	}
-// 	return res, nil
-// }

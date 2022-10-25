@@ -39,6 +39,7 @@ func (cs *checkoutHandler) AddCheckout() echo.HandlerFunc {
 		inputChck.IdPembeli = uint(middlewares.ExtractToken(c))
 		cnv, cnvC := ToDomainHistory(input, inputChck)
 		cnvC.OrderId = "ORDER-" + (time.Now().Format("02 Jan 06 15:04")) + fmt.Sprintf("%f", rand.Float64())
+		cnvC.Status = "pending"
 		inputMidtrans := helper.OrderMidtrans(cnvC.OrderId, int64(cnvC.GrossAmount))
 		cnvC = ToDomainMidtrans(inputMidtrans, cnvC)
 		log.Println(cnvC)

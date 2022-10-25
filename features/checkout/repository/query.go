@@ -43,19 +43,9 @@ func (rq *repoQuery) Insert(newHistory []domain.HistoryCore, newCheckout domain.
 	return newCheckout, nil
 }
 
-func (rq *repoQuery) Edit(input domain.Core) (domain.Core, error) {
-	var cnv Checkout = FromDomain(input)
-	if err := rq.db.Where("id = ?", cnv.ID).Updates(&cnv).Error; err != nil {
-		return domain.Core{}, err
-	}
-	// selesai dari DB
-	input = ToDomain(cnv)
-	return input, nil
-}
-
 func (rq *repoQuery) Get(id uint) ([]domain.Core, error) {
 	var resQry []Checkout
-	if err := rq.db.Where("id_pembeli=?", id).Find(&resQry).Error; err != nil {
+	if err := rq.db.Where("id_pembeli=? AND status='pending'", id).Find(&resQry).Error; err != nil {
 		return nil, err
 	}
 

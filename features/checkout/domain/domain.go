@@ -27,7 +27,6 @@ type HistoryCore struct {
 	IdProduct  uint
 	ProductQty int
 	Price      int
-	Status     string
 }
 
 type Repository interface {
