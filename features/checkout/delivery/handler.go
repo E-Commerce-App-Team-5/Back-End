@@ -28,8 +28,7 @@ func (cs *checkoutHandler) AddCheckout() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("an invalid client request")))
 		}
 		inputChck.IdPembeli = uint(middlewares.ExtractToken(c))
-		cnv := ToDomainHistory(input)
-		cnvC := ToDomain(inputChck)
+		cnv, cnvC := ToDomainHistory(input, inputChck)
 		res, err := cs.srv.AddCheckout(cnv, cnvC)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, FailResponse("There is problem on server."))
