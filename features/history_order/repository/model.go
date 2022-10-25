@@ -13,8 +13,8 @@ type History struct {
 	ProductQty  int
 	Price       int
 	// IdPembeli   uint   `gorm:"-:migration"`
-	NamaPenjual string `gorm:"-:migration"`
-	NamaBarang  string `gorm:"-:migration"`
+	ProductName string `gorm:"-:migration"`
+	NamaToko  string `gorm:"-:migration"`
 }
 
 func ToDomainArray(cnv []History) []domain.Core {
@@ -24,6 +24,8 @@ func ToDomainArray(cnv []History) []domain.Core {
 			ID:         val.ID,
 			IdCheckout: val.IdCheckout,
 			IdProduct:  val.IdProduct,
+			ProductName: val.ProductName,
+			NamaToko: val.NamaToko,
 			ProductQty: val.ProductQty,
 			Price:      val.Price,
 		})

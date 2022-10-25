@@ -6,8 +6,8 @@ type Core struct {
 	IdProduct   uint
 	ProductQty  int
 	Price       int
-	NamaPenjual string
-	NamaBarang  string
+	NamaToko string
+	ProductName  string
 	Status string
 }
 
