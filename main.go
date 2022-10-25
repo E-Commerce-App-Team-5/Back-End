@@ -20,10 +20,13 @@ import (
 func main() {
 	e := echo.New()
 	db := database.InitDB()
+	// USER 
 	uRepo := userRepo.New(db)
 	uService := userSrv.New(uRepo)
+	// PRODUCT
 	pRepo := productRepo.New(db)
 	pService := productSrv.New(pRepo)
+	// CART
 	cRepo := cartRepo.New(db)
 	cService := cartSrv.New(cRepo)
 

@@ -23,7 +23,7 @@ type User struct {
 type Product struct {
 	gorm.Model
 	IdUser         uint
-	NamaToko       string
+	NamaToko       string `gorm:"-:migration" gorm:"<-"`
 	ProductName    string
 	ProductDetail  string
 	ProductQty     int
