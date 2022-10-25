@@ -57,9 +57,9 @@ func (rq *repoQuery) Edit(input domain.Core) (domain.Core, error) {
 	return input, nil
 }
 
-func (rq *repoQuery) Get() ([]domain.Core, error) {
+func (rq *repoQuery) Get(id uint) ([]domain.Core, error) {
 	var resQry []Checkout
-	if err := rq.db.Where("carts.id_user=?").Find(&resQry).Joins("left join products on products.id = carts.id_product").Joins("left join users on users.id = carts.id_user").Scan(&resQry).Error; err != nil {
+	if err := rq.db.Where("carts.id_user=?", id).Find(&resQry).Joins("left join products on products.id = carts.id_product").Joins("left join users on users.id = carts.id_user").Scan(&resQry).Error; err != nil {
 		return nil, err
 	}
 

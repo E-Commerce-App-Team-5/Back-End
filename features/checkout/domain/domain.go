@@ -32,12 +32,12 @@ type HistoryCore struct {
 
 type Repository interface {
 	Insert(newHistory []HistoryCore, newCheckout Core) (Core, error)
-	Get() ([]Core, error)
+	Get(id uint) ([]Core, error)
 	Delete(id uint) (Core, error)
 }
 
 type Service interface { // Bisnis logic
-	AddCheckout(newProduct Core) (Core, error)
+	AddCheckout(newHistory []HistoryCore, newCheckout Core) (Core, error)
 	DeleteCheckout(ID uint) (Core, error)
-	GetCheckout() ([]Core, error)
+	GetCheckout(id uint) ([]Core, error)
 }
