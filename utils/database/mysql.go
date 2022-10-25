@@ -6,6 +6,7 @@ import (
 
 	// "os"
 
+	checkout "ecommerce/features/checkout/repository"
 	user "ecommerce/features/user/repository"
 
 	// "fmt"
@@ -24,7 +25,7 @@ func InitDB() *gorm.DB {
 		c.DBPort,
 		c.DBName,
 	)
-	
+
 	db, err := gorm.Open(mysql.Open(str), &gorm.Config{})
 	if err != nil {
 		log.Error("db config error :", err.Error())
@@ -38,4 +39,6 @@ func migrateDB(db *gorm.DB) {
 	db.AutoMigrate(&user.User{})
 	db.AutoMigrate(&user.Product{})
 	db.AutoMigrate(&user.Cart{})
+	db.AutoMigrate(&checkout.Checkout{})
+	db.AutoMigrate(&checkout.History{})
 }
