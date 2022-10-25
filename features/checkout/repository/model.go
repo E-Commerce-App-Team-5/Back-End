@@ -9,16 +9,17 @@ import (
 type Checkout struct {
 	gorm.Model
 	IdPembeli   uint
-	OrderId     string
+	OrderId     string `gorm:"unique"`
 	GrossAmount float32
 	Token       string
 	Link        string
 	Status      string
+	Historys    []History `gorm:"foreignKey:IdCheckout"`
 }
 
 type History struct {
 	gorm.Model
-	IdPembeli  uint
+	IdCheckout uint
 	IdProduct  uint
 	ProductQty int
 	Price      int
@@ -28,7 +29,7 @@ type History struct {
 func FromDomainHistory(dp []domain.HistoryCore) []History {
 	var res []History
 	for _, val := range dp {
-		res = append(res, History{Model: gorm.Model{ID: val.ID}, IdPembeli: val.IdPembeli,
+		res = append(res, History{Model: gorm.Model{ID: val.ID},
 			IdProduct:  val.IdProduct,
 			ProductQty: val.ProductQty,
 			Price:      val.Price,

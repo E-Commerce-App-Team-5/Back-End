@@ -1,6 +1,10 @@
 package delivery
 
-import "ecommerce/features/checkout/domain"
+import (
+	"ecommerce/features/checkout/domain"
+
+	"github.com/midtrans/midtrans-go/snap"
+)
 
 type RegisterFormat struct {
 	IdPembeli  uint    `json:"id_pembeli" form:"id_pembeli"`
@@ -24,4 +28,8 @@ func ToDomainHistory(i interface{}, j interface{}) ([]domain.HistoryCore, domain
 	}
 	resCheckout := domain.Core{IdPembeli: res.IdPembeli, GrossAmount: res.Price}
 	return arr, resCheckout
+}
+
+func ToDomainMidtrans(i *snap.Response, res domain.Core) domain.Core {
+	return domain.Core{IdPembeli: res.IdPembeli, GrossAmount: res.GrossAmount, OrderId: res.OrderId, Token: i.Token, Link: i.RedirectURL}
 }

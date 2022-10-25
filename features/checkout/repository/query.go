@@ -24,22 +24,18 @@ func (rq *repoQuery) Delete(id uint) (domain.Core, error) {
 }
 
 func (rq *repoQuery) Insert(newHistory []domain.HistoryCore, newCheckout domain.Core) (domain.Core, error) {
-	var res Checkout
-	var cnv []History
-	for i := 0; i < len(newHistory); i++ {
-		rq.db.Where("id_product=?", newHistory[i].IdProduct).Select("price").First(&newHistory[i])
-		newHistory[i].Price = newHistory[i].Price * newHistory[i].ProductQty
-		res.GrossAmount += float32(newHistory[i].Price)
-	}
-	cnv = FromDomainHistory(newHistory)
-	for i := 0; i < len(cnv); i++ {
-		if err := rq.db.Create(&cnv[i]).Error; err != nil {
-			return domain.Core{}, err
-		}
-	}
+	var res Checkout = FromDomain(newCheckout)
+	var cnv []History = FromDomainHistory(newHistory)
 
 	if err := rq.db.Create(&res).Error; err != nil {
 		return domain.Core{}, err
+	}
+
+	for i := 0; i < len(cnv); i++ {
+		cnv[i].IdCheckout = res.ID
+		if err := rq.db.Create(&cnv[i]).Error; err != nil {
+			return domain.Core{}, err
+		}
 	}
 
 	// selesai dari DB
@@ -59,7 +55,7 @@ func (rq *repoQuery) Edit(input domain.Core) (domain.Core, error) {
 
 func (rq *repoQuery) Get(id uint) ([]domain.Core, error) {
 	var resQry []Checkout
-	if err := rq.db.Where("carts.id_user=?", id).Find(&resQry).Joins("left join products on products.id = carts.id_product").Joins("left join users on users.id = carts.id_user").Scan(&resQry).Error; err != nil {
+	if err := rq.db.Where("id_pembeli=?", id).Find(&resQry).Error; err != nil {
 		return nil, err
 	}
 

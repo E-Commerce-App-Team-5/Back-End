@@ -36,7 +36,7 @@ func ToResponse(core interface{}, code string) interface{} {
 	switch code {
 	case "register":
 		cnv := core.(domain.Core)
-		res = RegisterResponse{ID: cnv.ID, OrderId: cnv.OrderId, GrossAmount: cnv.GrossAmount, Token: cnv.Token, Link: cnv.Link}
+		res = RegisterResponse{ID: cnv.ID, IdPembeli: cnv.IdPembeli, OrderId: cnv.OrderId, GrossAmount: cnv.GrossAmount, Token: cnv.Token, Link: cnv.Link}
 	}
 
 	return res
