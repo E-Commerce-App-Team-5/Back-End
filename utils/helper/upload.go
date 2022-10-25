@@ -59,7 +59,7 @@ func UploadProfile(c echo.Context) (string, error) {
 
 	input := &s3manager.UploadInput{
 		Bucket:      aws.String("ecommerce-alta"),                                   // bucket's name
-		Key:         aws.String("product/" + randomStr + "-" + fileheader.Filename), // files destination location
+		Key:         aws.String("profile/" + randomStr + "-" + fileheader.Filename), // files destination location
 		Body:        file,                                                           // content of the file
 		ContentType: aws.String("image/jpg"),                                        // content type
 	}
@@ -91,7 +91,7 @@ func UploadProfileProduct(c echo.Context) (string, error) {
 
 	input := &s3manager.UploadInput{
 		Bucket:      aws.String("ecommerce-alta"),                                   // bucket's name
-		Key:         aws.String("profile/" + randomStr + "-" + fileheader.Filename), // files destination location
+		Key:         aws.String("product/" + randomStr + "-" + fileheader.Filename), // files destination location
 		Body:        file,                                                           // content of the file
 		ContentType: aws.String("image/jpg"),                                        // content type
 	}

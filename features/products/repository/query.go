@@ -2,6 +2,7 @@ package repository
 
 import (
 	"ecommerce/features/products/domain"
+	"log"
 
 	"gorm.io/gorm"
 )
@@ -25,10 +26,7 @@ func (rq *repoQuery) Delete(id uint) (domain.Core, error) {
 
 func (rq *repoQuery) Insert(newProduct domain.Core) (domain.Core, error) {
 	var cnv Product = FromDomain(newProduct)
-	var tempUser User
-	rq.db.Where("id=?", cnv.IdUser).First(&tempUser)
-	cnv.NamaToko = tempUser.NamaToko
-	if err := rq.db.Create(&cnv).Error; err != nil {
+	if err := rq.db.Select("id_user", "product_name", "product_detail", "product_qty", "product_picture", "price").Create(&cnv).Error; err != nil {
 		return domain.Core{}, err
 	}
 
@@ -50,15 +48,17 @@ func (rq *repoQuery) Edit(input domain.Core) (domain.Core, error) {
 func (rq *repoQuery) Get(page int) ([]domain.Core, error) {
 	var resQry []Product
 	if page == 0 {
-		if err := rq.db.Limit(20).Order("created_at desc").Find(&resQry).Error; err != nil {
+		if err := rq.db.Limit(20).Find(&resQry).Order("products.created_at desc").Joins("left join users on users.id = products.id_user").Scan(&resQry).Error; err != nil {
 			return nil, err
 		}
 	} else {
 		i := page * 20
-		if err := rq.db.Offset(i).Limit(20).Order("created_at desc").Find(&resQry).Error; err != nil {
+		if err := rq.db.Offset(i).Limit(20).Find(&resQry).Order("products.created_at desc").Joins("left join users on users.id = products.id_user").Scan(&resQry).Error; err != nil {
 			return nil, err
 		}
 	}
+
+	log.Print("ini dari log ",resQry[0].NamaToko)
 	// selesai dari DB
 	res := ToDomainArray(resQry)
 	return res, nil

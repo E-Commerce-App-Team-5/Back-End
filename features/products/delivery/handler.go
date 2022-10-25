@@ -23,12 +23,14 @@ func New(e *echo.Echo, srv domain.Service) {
 	e.POST("/products", handler.AddProduct(), middleware.JWT([]byte(config.JWT_SECRET)))          // TAMBAH PRODUCT
 	e.GET("/products", handler.GetProduct())                                                      // GET PRODUCT
 	e.DELETE("/products/:id", handler.DeleteProduct(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE PRODUCT
-	e.PUT("/products", handler.UpdateProduct(), middleware.JWT([]byte(config.JWT_SECRET)))        // UPDATE PRODUCT
+	e.PUT("/products/:id", handler.UpdateProduct(), middleware.JWT([]byte(config.JWT_SECRET)))        // UPDATE PRODUCT
 }
 
 func (ps *productHandler) UpdateProduct() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var input UpdateFormat
+		id, err := strconv.Atoi(c.Param("id"))
+		input.ID = uint(id)
 		if err := c.Bind(&input); err != nil {
 			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("cannot bind data")))
 		}
@@ -43,8 +45,8 @@ func (ps *productHandler) UpdateProduct() echo.HandlerFunc {
 			input.ProductPicture = res
 		}
 
-		id := middlewares.ExtractToken(c)
-		input.IdUser = uint(id)
+		idUser := middlewares.ExtractToken(c)
+		input.IdUser = uint(idUser)
 		cnv := ToDomain(input)
 		res, err := ps.srv.UpdateProduct(cnv)
 		if err != nil {
