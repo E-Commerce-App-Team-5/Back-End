@@ -53,3 +53,13 @@ func (rq *repoQuery) Get(id uint) ([]domain.Core, error) {
 	res := ToDomainArray(resQry)
 	return res, nil
 }
+
+func (rq *repoQuery) Update(newCheckout domain.Core) error {
+	var cnv Checkout = FromDomain(newCheckout)
+	if err := rq.db.Where("order_id=?", newCheckout.OrderId).Updates(&cnv).Error; err != nil {
+		return err
+	}
+	newCheckout = ToDomain(cnv)
+
+	return nil
+}

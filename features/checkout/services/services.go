@@ -43,3 +43,10 @@ func (cs *checkoutService) GetCheckout(id uint) ([]domain.Core, error) {
 
 	return res, nil
 }
+
+func (cs *checkoutService) UpdateCheckout(newCheckout domain.Core) {
+	err := cs.qry.Update(newCheckout)
+	if err != nil {
+		log.Error(err.Error())
+	}
+}
