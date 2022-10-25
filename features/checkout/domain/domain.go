@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/labstack/echo/v4"
+
 type Core struct {
 	ID          uint
 	IdPembeli   uint
@@ -39,4 +41,10 @@ type Service interface { // Bisnis logic
 	AddCheckout(newHistory []HistoryCore, newCheckout Core) (Core, error)
 	DeleteCheckout(ID uint) (Core, error)
 	GetCheckout(id uint) ([]Core, error)
+}
+
+type Handler interface {
+	AddCheckout() echo.HandlerFunc
+	GetCheckout() echo.HandlerFunc
+	DeleteCheckout() echo.HandlerFunc
 }

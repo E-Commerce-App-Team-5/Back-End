@@ -23,9 +23,9 @@ type checkoutHandler struct {
 
 func New(e *echo.Echo, srv domain.Service) {
 	handler := checkoutHandler{srv: srv}
-	e.POST("/checkout", handler.AddCheckout(), middleware.JWT([]byte(config.JWT_SECRET)))         // TAMBAH CHECKOUT
-	e.GET("/checkout", handler.GetProduct(), middleware.JWT([]byte(config.JWT_SECRET)))           // GET CHECKOUT
-	e.DELETE("/checkout/:id", handler.DeleteProduct(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE CHECKOUT
+	e.POST("/checkout", handler.AddCheckout(), middleware.JWT([]byte(config.JWT_SECRET)))          // TAMBAH CHECKOUT
+	e.GET("/checkout", handler.GetCheckout(), middleware.JWT([]byte(config.JWT_SECRET)))           // GET CHECKOUT
+	e.DELETE("/checkout/:id", handler.DeleteCheckout(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE CHECKOUT
 }
 
 func (cs *checkoutHandler) AddCheckout() echo.HandlerFunc {
@@ -52,7 +52,7 @@ func (cs *checkoutHandler) AddCheckout() echo.HandlerFunc {
 	}
 }
 
-func (cs *checkoutHandler) DeleteProduct() echo.HandlerFunc {
+func (cs *checkoutHandler) DeleteCheckout() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
@@ -66,7 +66,7 @@ func (cs *checkoutHandler) DeleteProduct() echo.HandlerFunc {
 	}
 }
 
-func (cs *checkoutHandler) GetProduct() echo.HandlerFunc {
+func (cs *checkoutHandler) GetCheckout() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := uint(middlewares.ExtractToken(c))
 		res, err := cs.srv.GetCheckout(id)

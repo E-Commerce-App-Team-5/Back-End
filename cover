@@ -1,14 +1,11 @@
 mode: set
-ecommerce/features/cart/services/services.go:14.49,18.2 1 1
-ecommerce/features/cart/services/services.go:20.68,22.16 2 1
-ecommerce/features/cart/services/services.go:25.2,25.17 1 1
-ecommerce/features/cart/services/services.go:22.16,24.3 1 1
-ecommerce/features/cart/services/services.go:28.80,30.16 2 1
-ecommerce/features/cart/services/services.go:34.2,34.17 1 1
-ecommerce/features/cart/services/services.go:30.16,32.3 1 1
-ecommerce/features/cart/services/services.go:37.67,39.16 2 1
-ecommerce/features/cart/services/services.go:44.2,44.17 1 1
-ecommerce/features/cart/services/services.go:39.16,42.3 2 1
-ecommerce/features/cart/services/services.go:47.78,49.16 2 1
-ecommerce/features/cart/services/services.go:52.2,52.17 1 1
-ecommerce/features/cart/services/services.go:49.16,51.3 1 1
+ecommerce/features/checkout/services/services.go:14.49,18.2 1 1
+ecommerce/features/checkout/services/services.go:20.73,22.16 2 1
+ecommerce/features/checkout/services/services.go:25.2,25.17 1 1
+ecommerce/features/checkout/services/services.go:22.16,24.3 1 1
+ecommerce/features/checkout/services/services.go:28.118,30.16 2 1
+ecommerce/features/checkout/services/services.go:34.2,34.17 1 1
+ecommerce/features/checkout/services/services.go:30.16,32.3 1 1
+ecommerce/features/checkout/services/services.go:37.72,39.16 2 1
+ecommerce/features/checkout/services/services.go:44.2,44.17 1 1
+ecommerce/features/checkout/services/services.go:39.16,42.3 2 1
