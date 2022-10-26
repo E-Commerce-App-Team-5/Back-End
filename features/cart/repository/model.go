@@ -39,6 +39,7 @@ type Cart struct {
 	NamaToko       string `gorm:"-:migration" gorm:"->"`
 	ProductName    string `gorm:"-:migration" gorm:"->"`
 	ProductQty     int
+	ProductDetail  string `gorm:"-:migration" gorm:"->"`
 	Price          int    `gorm:"-:migration" gorm:"->"`
 	ProductPicture string `gorm:"-:migration" gorm:"->"`
 }
@@ -72,7 +73,7 @@ func ToDomain(dp Cart) domain.Core {
 func ToDomainArray(dp []Cart) []domain.Core {
 	var res []domain.Core
 	for _, val := range dp {
-		res = append(res, domain.Core{ID: val.ID, IdProduct: val.IdProduct, IdUser: val.IdUser, NamaToko: val.NamaToko, ProductName: val.ProductName, ProductQty: val.ProductQty, Price: val.Price, ProductPicture: val.ProductPicture})
+		res = append(res, domain.Core{ID: val.ID, IdProduct: val.IdProduct, ProductDetail: val.ProductDetail,IdUser: val.IdUser, NamaToko: val.NamaToko, ProductName: val.ProductName, ProductQty: val.ProductQty, Price: val.Price, ProductPicture: val.ProductPicture})
 	}
 	return res
 }

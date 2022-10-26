@@ -9,6 +9,7 @@ type Core struct {
 	NamaToko       string
 	ProductName    string
 	ProductQty     int
+	ProductDetail  string
 	Price          int
 	ProductPicture string
 }

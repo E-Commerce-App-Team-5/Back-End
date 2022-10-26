@@ -28,6 +28,7 @@ type GetResponse struct {
 	NamaToko       string `json:"nama_toko"`
 	ProductName    string `json:"product_name"`
 	ProductQty     int    `json:"product_qty"`
+	ProductDetail  string `json:"product_detail"`
 	Price          int    `json:"price"`
 	ProductPicture string `json:"product_picture"`
 }
@@ -44,7 +45,7 @@ type UpdateResponse struct {
 
 func ToResponse(core interface{}, code string) interface{} {
 	var res interface{}
-	switch code{
+	switch code {
 	case "register":
 		cnv := core.(domain.Core)
 		res = RegisterResponse{IdProduct: cnv.IdProduct, ProductQty: cnv.ProductQty}
@@ -52,7 +53,7 @@ func ToResponse(core interface{}, code string) interface{} {
 		cnv := core.(domain.Core)
 		res = UpdateResponse{ID: cnv.ID, ProductQty: cnv.ProductQty}
 	}
-	
+
 	return res
 }
 
@@ -61,7 +62,7 @@ func ToResponseProduct(core interface{}, code string) interface{} {
 	var arr []GetResponse
 	val := core.([]domain.Core)
 	for _, cnv := range val {
-		arr = append(arr, GetResponse{ID: cnv.ID, IdProduct: cnv.IdProduct, IdUser: cnv.IdUser, NamaToko: cnv.NamaToko, ProductName: cnv.ProductName,
+		arr = append(arr, GetResponse{ID: cnv.ID, IdProduct: cnv.IdProduct, ProductDetail: cnv.ProductDetail,IdUser: cnv.IdUser, NamaToko: cnv.NamaToko, ProductName: cnv.ProductName,
 			ProductQty: cnv.ProductQty, Price: cnv.Price, ProductPicture: cnv.ProductPicture})
 	}
 	res = arr
