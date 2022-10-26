@@ -8,26 +8,25 @@ import (
 
 type History struct {
 	gorm.Model
-	IdCheckout  uint
-	IdProduct   uint
-	ProductQty  int
-	Price       int
-	// IdPembeli   uint   `gorm:"-:migration"`
-	ProductName string `gorm:"-:migration"`
-	NamaToko  string `gorm:"-:migration"`
+	IdProduct      uint
+	ProductQty     int
+	Price          int
+	ProductName    string `gorm:"-:migration" gorm:"<-"`
+	NamaToko       string `gorm:"-:migration" gorm:"<-"`
+	ProductPicture string `gorm:"-:migration" gorm:"<-"`
 }
 
-func ToDomainArray(cnv []History) []domain.Core {
+func ToDomain(cnv []History) []domain.Core {
 	var res []domain.Core
 	for _, val := range cnv {
 		res = append(res, domain.Core{
-			ID:         val.ID,
-			IdCheckout: val.IdCheckout,
-			IdProduct:  val.IdProduct,
+			ID:          val.ID,
+			IdProduct:   val.IdProduct,
+			ProductQty:  val.ProductQty,
+			Price:       val.Price,
+			NamaToko:    val.NamaToko,
 			ProductName: val.ProductName,
-			NamaToko: val.NamaToko,
-			ProductQty: val.ProductQty,
-			Price:      val.Price,
+			ProductPicture: val.ProductPicture,
 		})
 	}
 	return res

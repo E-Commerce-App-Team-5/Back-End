@@ -2,6 +2,7 @@ package repository
 
 import (
 	"ecommerce/features/checkout/domain"
+	"log"
 
 	"gorm.io/gorm"
 )
@@ -27,6 +28,7 @@ func (rq *repoQuery) Insert(newHistory []domain.HistoryCore, newCheckout domain.
 	var res Checkout = FromDomain(newCheckout)
 	var cnv []History = FromDomainHistory(newHistory)
 
+	log.Print()
 	if err := rq.db.Create(&res).Error; err != nil {
 		return domain.Core{}, err
 	}

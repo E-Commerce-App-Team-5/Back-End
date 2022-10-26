@@ -18,23 +18,31 @@ func FailResponse(msg string) interface{} {
 }
 
 type BuyResponse struct {
-	ID         uint `json:"id"`
-	IdCheckout uint `json:"id_checkout"`
-	IdProduct  uint `json:"id_product"`
-	ProductQty int  `json:"product_qty"`
-	Price      int  `json:"price"`
-	ProductName string `json:"product_name"`
-	NamaToko string `json:"nama_toko"`
+	ID             uint ``
+	IdProduct      uint
+	ProductQty     int
+	NamaToko       string
+	ProductName    string
+	PriceSum       int
+	ProductPicture string
 }
 
-func ToResponse(input interface{}, code string) interface{} {
+func ToResponse(code string, history []domain.Core) interface{} {
 	var res interface{}
+
 	switch code {
 	case "buy":
 		var arr []BuyResponse
-		cnv := input.([]domain.Core)
-		for _, val := range cnv {
-			arr = append(arr, BuyResponse{ID: val.ID, IdCheckout: val.IdCheckout, IdProduct: val.IdProduct, ProductName: val.ProductName, NamaToko: val.NamaToko, ProductQty: val.ProductQty, Price: val.Price})
+		for _, val := range  history {
+			arr = append(arr, BuyResponse{
+				ID: val.ID,
+				IdProduct: val.IdProduct,
+				ProductQty: val.ProductQty,
+				NamaToko: val.NamaToko,
+				ProductName: val.ProductName,
+				PriceSum: val.PriceSum,
+				ProductPicture: val.ProductPicture,
+			})
 		}
 		res = arr
 	}
