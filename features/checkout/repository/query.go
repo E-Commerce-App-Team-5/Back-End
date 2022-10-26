@@ -65,6 +65,7 @@ func (rq *repoQuery) Update(newCheckout domain.Core) error {
 
 	var res []History
 	var produk, temp Product
+	rq.db.Where("order_id=?", newCheckout.OrderId).First(&cnv)
 	rq.db.Where("id_checkout=?", &cnv.ID).Find(&res)
 	for _, val := range res {
 		rq.db.Where("id_product=?", val.IdProduct).First(&produk)
