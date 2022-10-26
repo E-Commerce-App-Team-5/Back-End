@@ -81,7 +81,7 @@ func (ps *productHandler) GetProduct() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, FailResponse("An invalid client request"))
 		}
-		return c.JSON(http.StatusOK, SuccessResponse("Success show all data", ToResponseProduct(res, "sukses")))
+		return c.JSON(http.StatusOK, SuccessResponse("Success show all data", ToResponseProduct(res)))
 	}
 }
 

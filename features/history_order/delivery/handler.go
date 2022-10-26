@@ -16,7 +16,7 @@ type historyHandler struct {
 
 func New(e *echo.Echo, srv domain.Services) {
 	handler := historyHandler{srv: srv}
-	e.GET("/historyBuy", handler.GetBuy(), middleware.JWT([]byte(config.JWT_SECRET)))
+	e.GET("/historybuy", handler.GetBuy(), middleware.JWT([]byte(config.JWT_SECRET)))
 	// e.GET("/historySell", handler.GetSell(), middleware.JWT([]byte(config.JWT_SECRET)))
 }
 

@@ -22,7 +22,7 @@ func FailResponse(msg interface{}) map[string]interface{} {
 }
 
 type UpdateResponse struct {
-	ID             uint   `json:"id"`
+	ID             uint   `json:"id_product"`
 	NamaToko       string `json:"nama_toko"`
 	ProductName    string `json:"product_name"`
 	ProductDetail  string `json:"product_detail"`
@@ -32,6 +32,7 @@ type UpdateResponse struct {
 }
 
 type RegisterResponse struct {
+	ID             uint   `json:"id_product"`
 	IdUser         uint   `json:"id_user"`
 	ProductName    string `json:"product_name"`
 	ProductQty     int    `json:"product_qty"`
@@ -44,7 +45,7 @@ func ToResponse(core interface{}, code string) interface{} {
 	switch code {
 	case "register":
 		cnv := core.(domain.Core)
-		res = RegisterResponse{IdUser: cnv.IdUser, ProductName: cnv.ProductName,
+		res = RegisterResponse{ID: cnv.ID, IdUser: cnv.IdUser, ProductName: cnv.ProductName,
 			ProductQty: cnv.ProductQty, Price: cnv.Price, ProductPicture: cnv.ProductPicture}
 	case "update":
 		cnv := core.(domain.Core)
@@ -54,12 +55,12 @@ func ToResponse(core interface{}, code string) interface{} {
 	return res
 }
 
-func ToResponseProduct(core interface{}, code string) interface{} {
+func ToResponseProduct(core interface{}) interface{} {
 	var res interface{}
 	var arr []UpdateResponse
 	val := core.([]domain.Core)
 	for _, cnv := range val {
-		arr = append(arr, UpdateResponse{ID: cnv.ID, ProductName: cnv.ProductName, NamaToko: cnv.NamaToko,ProductDetail: cnv.ProductDetail,
+		arr = append(arr, UpdateResponse{ID: cnv.ID, ProductName: cnv.ProductName, NamaToko: cnv.NamaToko, ProductDetail: cnv.ProductDetail,
 			ProductQty: cnv.ProductQty, Price: cnv.Price, ProductPicture: cnv.ProductPicture})
 	}
 	res = arr
