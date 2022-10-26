@@ -36,6 +36,9 @@ func (rq *repoQuery) Insert(newHistory []domain.HistoryCore, newCheckout domain.
 		if err := rq.db.Create(&cnv[i]).Error; err != nil {
 			return domain.Core{}, err
 		}
+		if err := rq.db.Where("id_product=? AND id_user=? AND product_qty=?", cnv[i].IdProduct, res.IdPembeli, cnv[i].ProductQty).Delete(&Cart{}).Error; err != nil {
+			return domain.Core{}, err
+		}
 	}
 
 	// selesai dari DB
