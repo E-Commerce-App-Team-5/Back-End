@@ -3,6 +3,7 @@ package services
 import (
 	"ecommerce/features/cart/domain"
 	"errors"
+	"strings"
 
 	"github.com/labstack/gommon/log"
 )
@@ -28,6 +29,11 @@ func (ps *productService) DeleteCart(id uint) (domain.Core, error) {
 func (ps *productService) AddCart(newProduct domain.Core) (domain.Core, error) {
 	res, err := ps.qry.Insert(newProduct)
 	if err != nil {
+		if strings.Contains(err.Error(), "cannot") {
+			return domain.Core{}, errors.New("cannot buy own product")
+		} else if strings.Contains(err.Error(), "stock") {
+			return domain.Core{}, errors.New("stock product tidak cukup")
+		}
 		return domain.Core{}, errors.New("some problem on database")
 	}
 
