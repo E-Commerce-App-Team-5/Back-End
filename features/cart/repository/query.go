@@ -33,6 +33,10 @@ func (rq *repoQuery) Insert(newCart domain.Core) (domain.Core, error) {
 		return domain.Core{}, errors.New("cannot buy own product")
 	}
 
+	if err := rq.db.Where("id = ? AND product_qty>=?", cnv.IdProduct, cnv.ProductQty).First(&compare).Error; err != nil {
+		log.Print(errors.New("stock product tidak cukup"))
+		return domain.Core{}, errors.New("stock product tidak cukup")
+	}
 
 	if err := rq.db.Select("id_product", "id_user", "carts.product_qty").Create(&cnv).Error; err != nil {
 		return domain.Core{}, err

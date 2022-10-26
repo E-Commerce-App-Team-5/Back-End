@@ -38,6 +38,9 @@ func (rq *repoQuery) Insert(newHistory []domain.HistoryCore, newCheckout domain.
 		if err := rq.db.Create(&cnv[i]).Error; err != nil {
 			return domain.Core{}, err
 		}
+		if err := rq.db.Where("id_product=? AND id_user=? AND product_qty=?", cnv[i].IdProduct, res.IdPembeli, cnv[i].ProductQty).Delete(&Cart{}).Error; err != nil {
+			return domain.Core{}, err
+		}
 	}
 
 	// selesai dari DB
@@ -54,4 +57,23 @@ func (rq *repoQuery) Get(id uint) ([]domain.Core, error) {
 	// selesai dari DB
 	res := ToDomainArray(resQry)
 	return res, nil
+}
+
+func (rq *repoQuery) Update(newCheckout domain.Core) error {
+	var cnv Checkout = FromDomain(newCheckout)
+	if err := rq.db.Where("order_id=?", newCheckout.OrderId).Updates(&cnv).Error; err != nil {
+		return err
+	}
+
+	var res []History
+	var produk, temp Product
+	rq.db.Where("order_id=?", newCheckout.OrderId).First(&cnv)
+	rq.db.Where("id_checkout=?", &cnv.ID).Find(&res)
+	for _, val := range res {
+		rq.db.Where("id=?", val.IdProduct).First(&produk)
+		temp.ProductQty = produk.ProductQty - val.ProductQty
+		rq.db.Where("id=?", val.IdProduct).Updates(&temp)
+	}
+	newCheckout = ToDomain(cnv)
+	return nil
 }

@@ -6,6 +6,22 @@ import (
 	"gorm.io/gorm"
 )
 
+type Product struct {
+	gorm.Model
+	IdUser         uint
+	ProductName    string
+	ProductDetail  string
+	ProductQty     int
+	Price          int
+	ProductPicture string
+}
+
+type Cart struct {
+	gorm.Model
+	IdProduct  uint
+	IdUser     uint
+	ProductQty int
+}
 type Checkout struct {
 	gorm.Model
 	IdPembeli   uint

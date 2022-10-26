@@ -80,7 +80,7 @@ func (cs *cartHandler) AddCart() echo.HandlerFunc {
 		cnv := ToDomain(input)
 		res, err := cs.srv.AddCart(cnv)
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, FailResponse("There is problem on server."))
+			return c.JSON(http.StatusInternalServerError, FailResponse(err.Error()))
 		}
 
 		return c.JSON(http.StatusCreated, SuccessResponse("success add cart", ToResponse(res, "register")))

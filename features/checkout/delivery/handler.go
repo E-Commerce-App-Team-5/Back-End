@@ -23,7 +23,8 @@ type checkoutHandler struct {
 
 func New(e *echo.Echo, srv domain.Service) {
 	handler := checkoutHandler{srv: srv}
-	e.POST("/checkout", handler.AddCheckout(), middleware.JWT([]byte(config.JWT_SECRET)))          // TAMBAH CHECKOUT
+	e.POST("/checkout", handler.AddCheckout(), middleware.JWT([]byte(config.JWT_SECRET))) // TAMBAH CHECKOUT
+	e.POST("/midtrans", handler.UpdateCheckout())
 	e.GET("/checkout", handler.GetCheckout(), middleware.JWT([]byte(config.JWT_SECRET)))           // GET CHECKOUT
 	e.DELETE("/checkout/:id", handler.DeleteCheckout(), middleware.JWT([]byte(config.JWT_SECRET))) // DELETE CHECKOUT
 }
@@ -74,5 +75,18 @@ func (cs *checkoutHandler) GetCheckout() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, FailResponse("An invalid client request"))
 		}
 		return c.JSON(http.StatusOK, SuccessResponse("Success show all data", ToResponse(res, "get")))
+	}
+}
+
+func (cs *checkoutHandler) UpdateCheckout() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var input UpdateFormat
+		if err := c.Bind(&input); err != nil {
+			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("an invalid client request")))
+		}
+		inputMidtrans := helper.CheckMidtrans(input.OrderID)
+		res := ToDomainCheckMidtrans(inputMidtrans)
+		cs.srv.UpdateCheckout(res)
+		return c.JSON(http.StatusOK, SuccessResponseNoData("Success update data."))
 	}
 }
