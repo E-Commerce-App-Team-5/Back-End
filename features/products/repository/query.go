@@ -2,7 +2,6 @@ package repository
 
 import (
 	"ecommerce/features/products/domain"
-	"log"
 
 	"gorm.io/gorm"
 )
@@ -60,7 +59,7 @@ func (rq *repoQuery) Get(page int) ([]domain.Core, error) {
 		if err := rq.db.Offset(i).Limit(20).
 		Select("products.id", "id_user", "users.nama_toko", "product_name", "product_detail", "product_qty", "price", "product_picture").
 		Order("products.created_at desc").Joins("left join users on users.id = products.id_user").
-		Find(&resQry).Scan(&resQry).Error; err != nil 
+		Find(&resQry).Scan(&resQry).Error; err != nil{
 			return nil, err
 		}
 	}
