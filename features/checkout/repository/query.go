@@ -62,7 +62,15 @@ func (rq *repoQuery) Update(newCheckout domain.Core) error {
 	if err := rq.db.Where("order_id=?", newCheckout.OrderId).Updates(&cnv).Error; err != nil {
 		return err
 	}
-	newCheckout = ToDomain(cnv)
 
+	var res []History
+	var produk, temp Product
+	rq.db.Where("id_checkout=?", &cnv.ID).Find(&res)
+	for _, val := range res {
+		rq.db.Where("id_product=?", val.IdProduct).First(&produk)
+		temp.ProductQty = produk.ProductQty - val.ProductQty
+		rq.db.Where("id_product=?", val.IdProduct).Updates(&temp)
+	}
+	newCheckout = ToDomain(cnv)
 	return nil
 }
