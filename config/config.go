@@ -32,8 +32,8 @@ func initConfig() *AppConfig {
 
 	// err := godotenv.Load("config.env")
 	// if err != nil {
-	//	log.Error("config error :", err.Error())
-	//	return nil
+	// 	log.Error("config error :", err.Error())
+	// 	return nil
 	// }
 
 	app.DBUser = os.Getenv("DB_USER")
