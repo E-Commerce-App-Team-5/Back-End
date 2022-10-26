@@ -13,6 +13,9 @@ import (
 	userDlv "ecommerce/features/user/delivery"
 	userRepo "ecommerce/features/user/repository"
 	userSrv "ecommerce/features/user/services"
+	historyRepo  "ecommerce/features/history_order/repository"
+	historySrv  "ecommerce/features/history_order/services"
+	historyDlv  "ecommerce/features/history_order/delivery"
 
 	"ecommerce/utils/database"
 
@@ -32,8 +35,13 @@ func main() {
 	// CART
 	cRepo := cartRepo.New(db)
 	cService := cartSrv.New(cRepo)
+	// CHECKOUT
 	ckRepo := chckRepo.New(db)
 	ckService := chckSrv.New(ckRepo)
+	// HISTORY
+	historyRepo := historyRepo.New(db)
+	historySrv := historySrv.New(historyRepo)
+
 
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.CORS())
@@ -43,6 +51,7 @@ func main() {
 	productDlv.New(e, pService)
 	cartDlv.New(e, cService)
 	chckDlv.New(e, ckService)
+	historyDlv.New(e, historySrv)
 
 	e.Logger.Fatal(e.Start(":8000"))
 }

@@ -34,7 +34,7 @@ func (cs *checkoutHandler) AddCheckout() echo.HandlerFunc {
 		var input []RegisterFormat
 		var inputChck CheckoutFormat
 		if err := c.Bind(&input); err != nil {
-			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("an invalid client request")))
+			return c.JSON(http.StatusBadRequest, FailResponse("an invalid client request"))
 		}
 
 		inputChck.IdPembeli = uint(middlewares.ExtractToken(c))

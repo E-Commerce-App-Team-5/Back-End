@@ -38,7 +38,7 @@ func (rq *repoQuery) Insert(newCart domain.Core) (domain.Core, error) {
 		return domain.Core{}, errors.New("stock product tidak cukup")
 	}
 
-	if err := rq.db.Select("id_product", "id_user", "product_qty").Create(&cnv).Error; err != nil {
+	if err := rq.db.Select("id_product", "id_user", "carts.product_qty").Create(&cnv).Error; err != nil {
 		return domain.Core{}, err
 	}
 
@@ -59,7 +59,11 @@ func (rq *repoQuery) Edit(input domain.Core) (domain.Core, error) {
 
 func (rq *repoQuery) Get(id uint) ([]domain.Core, error) {
 	var resQry []Cart
-	if err := rq.db.Model(Cart{}).Where("carts.id_user=?", id).Find(&resQry).Joins("left join products on products.id = carts.id_product").Joins("left join users on users.id = carts.id_user").Scan(&resQry).Error; err != nil {
+	if err := rq.db.Model(&[]Cart{}).Where("carts.id_user=?", id).
+	Joins("left join products on products.id = carts.id_product").
+	Joins("left join users on users.id = carts.id_user").
+	Select("carts.product_qty", "carts.id", "id_product", "carts.id_user", "users.nama_toko", "products.product_name", "products.price", "product_picture").
+	Scan(&resQry).Error; err != nil {
 		return nil, err
 	}
 

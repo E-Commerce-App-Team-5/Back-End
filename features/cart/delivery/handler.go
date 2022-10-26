@@ -41,7 +41,7 @@ func (cs *cartHandler) UpdateCart() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, FailResponse(err))
 		}
 
-		return c.JSON(http.StatusCreated, SuccessResponse("Success update user", ToResponse(res, "update")))
+		return c.JSON(http.StatusCreated, SuccessResponse("Success update cart", ToResponse(res, "update")))
 	}
 }
 
@@ -83,6 +83,6 @@ func (cs *cartHandler) AddCart() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, FailResponse(err.Error()))
 		}
 
-		return c.JSON(http.StatusCreated, SuccessResponse("success add product", ToResponse(res, "register")))
+		return c.JSON(http.StatusCreated, SuccessResponse("success add cart", ToResponse(res, "register")))
 	}
 }

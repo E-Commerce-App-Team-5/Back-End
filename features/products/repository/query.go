@@ -48,17 +48,23 @@ func (rq *repoQuery) Edit(input domain.Core) (domain.Core, error) {
 func (rq *repoQuery) Get(page int) ([]domain.Core, error) {
 	var resQry []Product
 	if page == 0 {
-		if err := rq.db.Model(&Product{}).Limit(10).Select("products.id, products.product_name, products.product_detail, products.product_qty, products.price, products.product_picture ,users.nama_toko").Order("products.created_at desc").Joins("left join users on users.id = products.id_user").Scan(&resQry).Error; err != nil {
+
+		if err := rq.db.Limit(20).
+		Select("products.id", "id_user", "users.nama_toko", "product_name", "product_detail", "product_qty", "price", "product_picture").
+		Order("products.created_at desc").Joins("left join users on users.id = products.id_user").
+		Find(&resQry).Scan(&resQry).Error; err != nil {
 			return nil, err
 		}
 	} else {
-		i := page * 10
-		if err := rq.db.Model(&Product{}).Offset(i).Limit(10).Select("products.id, products.product_name, products.product_detail, products.product_qty, products.price, products.product_picture ,users.nama_toko").Order("products.created_at desc").Joins("left join users on users.id = products.id_user").Scan(&resQry).Error; err != nil {
+		i := page * 20
+		if err := rq.db.Offset(i).Limit(20).
+		Select("products.id", "id_user", "users.nama_toko", "product_name", "product_detail", "product_qty", "price", "product_picture").
+		Order("products.created_at desc").Joins("left join users on users.id = products.id_user").
+		Find(&resQry).Scan(&resQry).Error; err != nil 
 			return nil, err
 		}
 	}
 
-	log.Print("ini dari log ", resQry)
 	// selesai dari DB
 	res := ToDomainArray(resQry)
 	return res, nil
