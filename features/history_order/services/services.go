@@ -1,6 +1,8 @@
 package services
 
-import "ecommerce/features/history_order/domain"
+import (
+	"ecommerce/features/history_order/domain"
+)
 
 type productService struct {
 	qry domain.Repostory
@@ -23,10 +25,13 @@ func (ps *productService) GetBuy(id uint) ([]domain.Core, error) {
 	return res,  nil
 }
 
-// func (ps *productService) GetSell(id uint) ([]domain.Core, error){
-// 	res, err := ps.qry.GetSell(id)
-// 	if err != nil {
-// 		return []domain.Core{}, err
-// 	}
-// 	return res, nil
-// }
+func (ps *productService) GetSell(id uint) ([]domain.Core, error){
+	res, err := ps.qry.GetSell(id)
+	if err != nil {
+		return []domain.Core{}, err
+	}
+	for i, val := range res {
+		res[i].PriceSum = val.Price
+	}
+	return res, nil
+}
