@@ -33,14 +33,28 @@ func (rq *repoQuery) Insert(newCart domain.Core) (domain.Core, error) {
 		return domain.Core{}, errors.New("cannot buy own product")
 	}
 
-	if err := rq.db.Where("id = ? AND product_qty>=?", cnv.IdProduct, cnv.ProductQty).First(&compare).Error; err != nil {
-		log.Print(errors.New("stock product tidak cukup"))
-		return domain.Core{}, errors.New("stock product tidak cukup")
+	if err := rq.db.First(&cnv).Error; err == nil {
+		cnv.ProductQty+=1
+		if err := rq.db.Model(&Cart{}).Where("id_product = ?", cnv.IdProduct).Update("product_qty", cnv.ProductQty).Error; err != nil {
+			log.Print(errors.New("error udpdate quantity"))
+			return domain.Core{}, err
+		
+		}
+	} else {
+		if err := rq.db.Where("id = ? AND product_qty>=?", cnv.IdProduct, cnv.ProductQty).First(&compare).Error; err != nil {
+			log.Print(errors.New("stock product tidak cukup"))
+			return domain.Core{}, errors.New("stock product tidak cukup")
+		}
+	
+		if err := rq.db.Select("id_product", "id_user", "carts.product_qty").Create(&cnv).Error; err != nil {
+			return domain.Core{}, err
+		}
 	}
+	
+	
 
-	if err := rq.db.Select("id_product", "id_user", "carts.product_qty").Create(&cnv).Error; err != nil {
-		return domain.Core{}, err
-	}
+	
+	
 
 	// selesai dari DB
 	newCart = ToDomain(cnv)
