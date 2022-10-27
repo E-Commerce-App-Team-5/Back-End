@@ -20,6 +20,7 @@ Fitur utama yang dimilikii aplikasi ini adalah :
 
 ## :computer:  Tech Stack
 - Golang 
+- [Amazon Web Service](https://aws.amazon.com/)
 
 - Packages
   - [Echo](https://echo.labstack.com/)
