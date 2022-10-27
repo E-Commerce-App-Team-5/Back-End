@@ -17,7 +17,7 @@ type historyHandler struct {
 func New(e *echo.Echo, srv domain.Services) {
 	handler := historyHandler{srv: srv}
 	e.GET("/historybuy", handler.GetBuy(), middleware.JWT([]byte(config.JWT_SECRET)))
-	// e.GET("/historySell", handler.GetSell(), middleware.JWT([]byte(config.JWT_SECRET)))
+	e.GET("/historysell", handler.GetSell(), middleware.JWT([]byte(config.JWT_SECRET)))
 }
 
 func (hh *historyHandler) GetBuy() echo.HandlerFunc {
@@ -27,14 +27,18 @@ func (hh *historyHandler) GetBuy() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, FailResponse("There is problem on server."))
 		}
-		return c.JSON(http.StatusOK, SuccessResponse("Success get checkout detail history", ToResponse("buy", res)))
+		return c.JSON(http.StatusOK, SuccessResponse("Success get history buy", ToResponse("buy", res)))
 	}
 }
 
-// func (hh *historyHandler) GetSell() echo.HandlerFunc 
-// 	return func(c echo.Context) error {
-// 		// id := middlewares.ExtractToken(c)
-// 		// res, err := hh.srv.GetSell(uint(id))
-// 	}
-// }
+func (hh *historyHandler) GetSell() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id := middlewares.ExtractToken(c)
+		res, err := hh.srv.GetSell(uint(id))
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, FailResponse("There is problem on server."))
+		}
+		return c.JSON(http.StatusOK, SuccessResponse("Success get history sell", ToResponse("sell", res)))
+	}
+}
 

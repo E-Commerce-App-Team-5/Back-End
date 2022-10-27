@@ -6,17 +6,19 @@ type Core struct {
 	ProductQty int
 	Price      int
 	NamaToko string
+	NamaPembeli string
 	ProductName string
+	ProductsDetail string
 	PriceSum int
 	ProductPicture string
 }
 
 type Services interface {
 	GetBuy(id uint) ([]Core, error)
-	// GetSell(id uint) ([]Core, error)
+	GetSell(id uint) ([]Core, error)
 }
 
 type Repostory interface {
 	GetBuy(id uint) ([]Core, error)
-	// GetSell(id uint) ([]Core, error)
+	GetSell(id uint) ([]Core, error)
 }
