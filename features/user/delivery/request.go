@@ -5,9 +5,10 @@ import (
 )
 
 type RegisterFormat struct {
-	Username string `json:"username" form:"username"`
-	Email    string `json:"email" form:"email"`
-	Password string `json:"password" form:"password"`
+	Username    string `json:"username" form:"username"`
+	Email       string `json:"email" form:"email"`
+	Password    string `json:"password" form:"password"`
+	UserPicture string `form:"user_picture" json:"user_picture"`
 }
 
 type UpdateFormat struct {
@@ -33,7 +34,7 @@ func ToDomain(i interface{}) domain.Core {
 	switch i.(type) {
 	case RegisterFormat:
 		cnv := i.(RegisterFormat)
-		return domain.Core{Username: cnv.Username, Email: cnv.Email, Password: cnv.Password}
+		return domain.Core{Username: cnv.Username, Email: cnv.Email, Password: cnv.Password, UserPicture: cnv.UserPicture}
 	case GetId:
 		cnv := i.(GetId)
 		return domain.Core{ID: cnv.id}

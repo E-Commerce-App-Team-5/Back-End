@@ -99,8 +99,9 @@ func (us *userHandler) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var input RegisterFormat
 		if err := c.Bind(&input); err != nil {
-			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("An invalid client request.")))
+			return c.JSON(http.StatusBadRequest, FailResponse(errors.New("an invalid client request.")))
 		}
+		input.UserPicture = "https://ecommerce-alta.s3.ap-southeast-1.amazonaws.com/profile/KJeT8FtTYYFq9MRbiv3u-profile.jpg"
 		cnv := ToDomain(input)
 		res, err := us.srv.Register(cnv)
 		if err != nil {
