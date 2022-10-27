@@ -23,14 +23,14 @@ func (us *userService) Login(input domain.Core) (domain.Core, string, error) {
 	res, err := us.qry.Login(input)
 	if err != nil {
 		log.Error(err.Error(), "email not found")
-		return domain.Core{}, "", err
+		return domain.Core{}, "", errors.New("email not found")
 	}
 
 	pass := domain.Core{Password: res.Password}
 	check := bcrypt.CompareHashAndPassword([]byte(pass.Password), []byte(input.Password))
-	if check != nil {
+	if check != nil { 
 		log.Error(check, " wrong password")
-		return domain.Core{}, "", check
+		return domain.Core{}, "", errors.New("wrong password")
 	}
 	token, err := middlewares.CreateToken(int(res.ID))
 
@@ -74,7 +74,7 @@ func (us *userService) Register(newUser domain.Core) (domain.Core, error) {
 	newUser.Password = string(generate)
 	res, err := us.qry.Insert(newUser)
 	if err != nil {
-		return domain.Core{}, errors.New("some problem on database")
+		return domain.Core{}, errors.New("user has registered")
 	}
 
 	res.Password = orgPass

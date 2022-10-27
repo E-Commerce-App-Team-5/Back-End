@@ -18,7 +18,7 @@ type Services interface {
 	GetSell(id uint) ([]Core, error)
 }
 
-type Repostory interface {
+type Repository interface {
 	GetBuy(id uint) ([]Core, error)
 	GetSell(id uint) ([]Core, error)
 }

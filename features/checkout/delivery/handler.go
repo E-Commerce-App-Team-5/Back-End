@@ -57,11 +57,11 @@ func (cs *checkoutHandler) DeleteCheckout() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
-			return errors.New("cannot convert id")
+			return c.JSON(http.StatusInternalServerError, FailResponse(err.Error()))
 		}
 		_, err = cs.srv.DeleteCheckout(uint(id))
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, FailResponse("An invalid client request."))
+			return c.JSON(http.StatusInternalServerError, FailResponse(err.Error()))
 		}
 		return c.JSON(http.StatusOK, SuccessResponseNoData("Success delete data."))
 	}

@@ -2,7 +2,6 @@ package repository
 
 import (
 	"ecommerce/features/checkout/domain"
-	"log"
 
 	"gorm.io/gorm"
 )
@@ -27,11 +26,10 @@ func (rq *repoQuery) Delete(id uint) (domain.Core, error) {
 func (rq *repoQuery) Insert(newHistory []domain.HistoryCore, newCheckout domain.Core) (domain.Core, error) {
 	var res Checkout = FromDomain(newCheckout)
 	var cnv []History = FromDomainHistory(newHistory)
-
-	log.Print()
 	if err := rq.db.Create(&res).Error; err != nil {
 		return domain.Core{}, err
 	}
+
 
 	for i := 0; i < len(cnv); i++ {
 		cnv[i].IdCheckout = res.ID
@@ -63,6 +61,14 @@ func (rq *repoQuery) Update(newCheckout domain.Core) error {
 	var cnv Checkout = FromDomain(newCheckout)
 	if err := rq.db.Where("order_id=?", newCheckout.OrderId).Updates(&cnv).Error; err != nil {
 		return err
+	}
+	var cart []Cart
+	rq.db.Find(&cart)
+
+	for _, val := range cart{
+		if err := rq.db.Where("id_product = ?", val.IdProduct).Delete(&cart).Error; err != nil {
+			return err
+		}
 	}
 
 	var res []History

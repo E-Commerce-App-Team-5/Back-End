@@ -36,7 +36,7 @@ func (us *userHandler) Login() echo.HandlerFunc {
 		cnv := ToDomain(input)
 		res, token, err := us.srv.Login(cnv)
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, FailResponse("login failed"))
+			return c.JSON(http.StatusInternalServerError, FailResponse(err.Error()))
 		}
 		res.Token = token
 		return c.JSON(http.StatusOK, SuccessResponse("login successful", ToResponse(res, "login")))
@@ -65,7 +65,7 @@ func (us *userHandler) UpdateUser() echo.HandlerFunc {
 		cnv := ToDomain(input)
 		res, err := us.srv.UpdateUser(cnv)
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, FailResponse(err))
+			return c.JSON(http.StatusInternalServerError, FailResponse(err.Error()))
 		}
 
 		return c.JSON(http.StatusCreated, SuccessResponse("Success update user", ToResponse(res, "update")))

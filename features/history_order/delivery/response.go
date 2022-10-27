@@ -11,7 +11,7 @@ func SuccessResponse(msg string, data interface{}) interface{} {
 	}
 }
 
-func FailResponse(msg string) interface{} {
+func FailResponse(msg interface{}) interface{} {
 	return map[string]interface{}{
 		"message": msg,
 	}
