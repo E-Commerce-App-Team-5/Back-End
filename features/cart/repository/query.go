@@ -33,7 +33,7 @@ func (rq *repoQuery) Insert(newCart domain.Core) (domain.Core, error) {
 		return domain.Core{}, errors.New("cannot buy own product")
 	}
 
-	if err := rq.db.Where("id_product=?", cnv.IdProduct).First(&cnv).Error; err == nil {
+	if err := rq.db.Where("id_product=? AND id_user=?", cnv.IdProduct, cnv.IdUser).First(&cnv).Error; err == nil {
 		cnv.ProductQty += 1
 		if err := rq.db.Model(&Cart{}).Where("id_product = ?", cnv.IdProduct).Update("product_qty", cnv.ProductQty).Error; err != nil {
 			log.Print(errors.New("error udpdate quantity"))
