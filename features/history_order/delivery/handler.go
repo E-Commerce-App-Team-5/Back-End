@@ -25,7 +25,7 @@ func (hh *historyHandler) GetBuy() echo.HandlerFunc {
 		id := middlewares.ExtractToken(c)
 		res, err := hh.srv.GetBuy(uint(id))
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, FailResponse("There is problem on server."))
+			return c.JSON(http.StatusInternalServerError, FailResponse(err))
 		}
 		return c.JSON(http.StatusOK, SuccessResponse("Success get history buy", ToResponse("buy", res)))
 	}
@@ -36,7 +36,7 @@ func (hh *historyHandler) GetSell() echo.HandlerFunc {
 		id := middlewares.ExtractToken(c)
 		res, err := hh.srv.GetSell(uint(id))
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, FailResponse("There is problem on server."))
+			return c.JSON(http.StatusInternalServerError, FailResponse(err))
 		}
 		return c.JSON(http.StatusOK, SuccessResponse("Success get history sell", ToResponse("sell", res)))
 	}

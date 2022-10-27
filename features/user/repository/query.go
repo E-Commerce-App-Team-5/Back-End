@@ -2,7 +2,6 @@ package repository
 
 import (
 	"ecommerce/features/user/domain"
-	"log"
 
 	"gorm.io/gorm"
 )
@@ -23,7 +22,6 @@ func (rq *repoQuery) Login(input domain.Core) (domain.Core, error) {
 	if err := rq.db.Where("email = ?", cnv.Email).First(&cnv).Error; err != nil {
 		return domain.Core{}, err
 	}
-	log.Print(cnv.ID, "ini id")
 	input = ToDomain(cnv)
 	return input, nil
 }

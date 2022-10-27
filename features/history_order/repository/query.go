@@ -11,7 +11,7 @@ type repoQuery struct {
 	db *gorm.DB
 }
 
-func New(dbConn *gorm.DB) domain.Repostory {
+func New(dbConn *gorm.DB) domain.Repository {
 	return &repoQuery{
 		db: dbConn,
 	}

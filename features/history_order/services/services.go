@@ -2,13 +2,14 @@ package services
 
 import (
 	"ecommerce/features/history_order/domain"
+	"errors"
 )
 
 type productService struct {
-	qry domain.Repostory
+	qry domain.Repository
 }
 
-func New(repo domain.Repostory) domain.Services {
+func New(repo domain.Repository) domain.Services {
 	return &productService{
 		qry: repo,
 	}
@@ -17,7 +18,7 @@ func New(repo domain.Repostory) domain.Services {
 func (ps *productService) GetBuy(id uint) ([]domain.Core, error) {
 	res, err := ps.qry.GetBuy(id)
 	if err != nil {
-		return []domain.Core{}, err
+		return []domain.Core{}, errors.New("There is problem on server.")
 	}
 	for i, val := range res {
 		res[i].PriceSum = val.Price * val.ProductQty
@@ -28,7 +29,7 @@ func (ps *productService) GetBuy(id uint) ([]domain.Core, error) {
 func (ps *productService) GetSell(id uint) ([]domain.Core, error){
 	res, err := ps.qry.GetSell(id)
 	if err != nil {
-		return []domain.Core{}, err
+		return []domain.Core{}, errors.New("There is problem on server.")
 	}
 	for i, val := range res {
 		res[i].PriceSum = val.Price

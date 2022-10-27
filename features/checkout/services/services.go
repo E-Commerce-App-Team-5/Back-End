@@ -20,7 +20,7 @@ func New(repo domain.Repository) domain.Service {
 func (cs *checkoutService) DeleteCheckout(id uint) (domain.Core, error) {
 	res, err := cs.qry.Delete(id)
 	if err != nil {
-		return domain.Core{}, err
+		return domain.Core{}, errors.New("some problem on database")
 	}
 	return res, err
 }
