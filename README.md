@@ -34,6 +34,7 @@ Fitur utama yang dimilikii aplikasi ini adalah :
 ## 📍 Endpoints:
 - [API Endpoint Documentation](https://app.swaggerhub.com/apis-docs/khalidrianda/Ecommerce/1.0.0#) (Swagger)
 - [API Link](https://ecommerce-alta.online/)
+- [Application Link](https://healtymart-brown.vercel.app/)
 
 ##  👨🏼‍💻 Contributors :
 - [Nur Fatchurohman](https://github.com/FaturFawkes)
