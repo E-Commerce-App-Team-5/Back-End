@@ -5,6 +5,8 @@ import (
 	"log"
 	"math/rand"
 	"os"
+
+	// "os"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -79,7 +81,7 @@ func UploadProfileProduct(c echo.Context) (string, error) {
 
 	randomStr := String(20)
 
-	godotenv.Load(".env")
+	// godotenv.Load(".env")
 
 	s3Config := &aws.Config{
 		Region:      aws.String("ap-southeast-1"),
