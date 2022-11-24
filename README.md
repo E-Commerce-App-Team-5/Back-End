@@ -2,6 +2,8 @@
 
 ##  📋 Description
 
+![Indexasas](https://user-images.githubusercontent.com/59137289/198380106-37994690-0198-4d21-a8ef-21df9868b536.png)
+
 Aplikasi ini dapat digunakan oleh user sebagai pembeli dan penjual terhadap suatu barang. Aplikasi ini sudah terintegrasi dengan merchant pembayaran online
 seperti virtual account, bank transfer, kertu debit, dan e-wallet.
 
